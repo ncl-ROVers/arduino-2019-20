@@ -17,9 +17,11 @@ class Communication{
   private:
     String key[ELEMENTCOUNT];
     String value[ELEMENTCOUNT];
-    int currentPosition = 0; // value of next free space
+    int currentPosition; // value of next free space
 
   public:
+    Communication();
+  
     /*
       Increment currentValue and send all values if buffer is full
     */
@@ -45,5 +47,7 @@ class Communication{
     */
     void sendAll();
 };
+
+extern Communication communication; // Object to handle communication between Arduino and Pi
 
 #endif /* COMMUNICATION_H */

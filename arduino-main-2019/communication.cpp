@@ -1,7 +1,9 @@
 #include "communication.h"
 #include "constants.h"
 
-//Communication::currentPosition = 0;
+Communication::Communication(){
+  currentPosition = 0;
+}
 
 void Communication::incrementPosition(){
   currentPosition++;
@@ -56,3 +58,5 @@ void Communication::sendAll(){
   Serial.println();
   currentPosition = 0;
 }
+
+Communication communication = Communication();

@@ -1,6 +1,12 @@
-/* Program to recieve and parse an incoming JSON string */
-/* Main IO code based on https://www.arduino.cc/en/Tutorial/SerialEvent */
-/* JSON parser code from https://arduinojson.org/v5/example/parser/ */
+/**
+ * @file arduino-main-2019
+ *
+ * @brief Embedded software for a marine ROV
+ *
+ * @author Antoine Petty, Mark Hazell, Adam Foy, Paweł Czaplewski
+ * Contact: antoine@antoinepetty.co.uk
+ *
+ */
 
 /* ============================================================ */
 /* ======================Import libraries====================== */
@@ -8,19 +14,11 @@
 #include <EEPROM.h> // Library for writing to Arduino's non volatile memory
 #include <ArduinoJson.h> // JSON encoding and decoding
 #include <Servo.h> // For controlling servos and thrusters
-//IMU
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
-//Depth
-#include <Wire.h>
-#include "MS5837.h"
-//Sonar
-#include "ping1d.h"
-//Temperature
-#include <Adafruit_MAX31865.h>
+
+// Custom ROV Libaries
 #include "communication.h"
 #include "constants.h"
+#include "input-devices.h"
 
 /* ============================================================ */
 /* ==================Set up global variables=================== */
@@ -30,7 +28,6 @@ bool stringComplete = false;  // whether a full JSON string has been received
 unsigned long lastMessage; // The timestamp of when the last message was received
 bool safetyActive = false; // Whether output devices are stopped because no data was received
 
-Communication communication; // Object to handle communication between Arduino and Pi
 
 /* ============================================================ */
 /* =======================Set up classes======================= */
@@ -39,32 +36,6 @@ Communication communication; // Object to handle communication between Arduino a
 
 /* ==========================Abstract========================== */
 
-/*
-  An abstract Input which has generic fields for the associated physical pin and JSON ID.
-  Also has generic method for reading the values from a sensor.
-*/
-class Input {
-
-  protected:
-    int pin=0; // The physical pin this is associated with
-    String partID="Part ID not set."; // The JSON Part ID of this device
-
-  public:
-    Input() {
-      //Empty constructor to create harmless input
-    }
-
-    // Get the current value of this device (EG: Temperature)
-    virtual int getValue() {
-      return 0;
-    }
-
-    // set parameters for sensor on the fly. e.g. sonar range. Each index would represent a certain property
-    int setParam(int index, int value){
-      // No implementation by default
-      return 0;
-    }
-};
 
 /*
   An abstract Output which has generic fields for the associated physical pin, min value, max value, stopped value, current value, and JSON ID.
@@ -132,281 +103,6 @@ class Output {
     }
 };
 
-
-/* ===========================Inputs=========================== */
-
-/*
-  The IMU class reads data from the IMU's sensors (position, acceleration, temperature) and sends this to the Pi using the communication class.
-*/
-class IMU: public Input {
-    // Designed to be a generic interface for all output devices.
-
-  protected:
-    bool initialised = false;
-    Adafruit_BNO055 imu = Adafruit_BNO055(55); // IMU device
-
-  public:
-    IMU(int inputPin, String incomingPartID){
-      // Run parent method
-      partID = incomingPartID;
-      if(!imu.begin())
-      {
-        // Send error message
-        communication.sendStatus(-2);
-      }
-      else{
-        imu.setExtCrystalUse(true);
-        initialised = true;
-      }
-    }
-
-    int getValue() {
-      if(initialised){
-        // Send x, y, z data from this sensor
-        /* Get a new sensor event */
-        sensors_event_t event;
-        imu.getEvent(&event);
-        /* Output the floating point data */
-        // x
-        communication.bufferValue(this->partID+"_X",String(event.orientation.x));
-
-        // y
-        communication.bufferValue(this->partID+"_Y",String(event.orientation.y));
-
-        // z
-        communication.bufferValue(this->partID+"_Z",String(event.orientation.z));
-
-        // Get temperature recorded by IMU
-        int8_t temp = imu.getTemp();
-        communication.bufferValue(this->partID+"_Temp",String(temp));
-
-        // Get acceleration data
-        imu::Vector<3> euler = imu.getVector(Adafruit_BNO055::VECTOR_LINEARACCEL);
-
-        communication.bufferValue(this->partID+"_AccX",String(euler.x()));
-        communication.bufferValue(this->partID+"_AccY",String(euler.y()));
-        communication.bufferValue(this->partID+"_AccZ",String(euler.z()));
-
-      }
-      else{
-        // Throw error because this sensor has not yet been initialised properly
-        communication.sendStatus(-3);
-        return -1;
-      }
-      return 0;
-    }
-};
-
-/*
-  The Depth class represents the BlueRobotics pressure sensor (measuring depth and external temperature) and sends this to the Pi using the communication class.
-*/
-class Depth: public Input {
-    // Designed to be a generic interface for all output devices.
-
-  protected:
-    bool initialised = false;
-    MS5837 depthSensor;
-
-  public:
-    Depth(int inputPin, String incomingPartID){
-      Wire.begin();
-      // Run parent method
-      partID = incomingPartID;
-      if(!depthSensor.init())
-      {
-        // Send error message
-        communication.sendStatus(-4);
-      }
-      else{
-        depthSensor.setModel(MS5837::MS5837_30BA);
-        depthSensor.setFluidDensity(997); // kg/m^3 (freshwater, 1029 for seawater)
-        initialised = true;
-      }
-    }
-
-    int getValue() {
-      if(initialised){
-        depthSensor.read(); // Read current values
-        communication.bufferValue(this->partID+"_Pres",String(depthSensor.pressure()));
-        communication.bufferValue(this->partID+"_Temp",String(depthSensor.temperature()));
-        communication.bufferValue(this->partID+"_Dep",String(depthSensor.depth()));
-        communication.bufferValue(this->partID+"_Alt",String(depthSensor.altitude()));
-
-      }
-      else{
-        // Throw error because this sensor has not yet been initialised properly
-        communication.sendStatus(-5);
-        return -1;
-      }
-      return 0;
-    }
-};
-
-/*
-  The PHSensor class represents a PH sensor which measures the water outside the ROV and sends the data to the Pi using the communication class.
-*/
-class PHSensor: public Input {
-    // Designed to be a generic interface for all output devices.
-
-  protected:
-    int buf[10], temp; // Store 10 samples from the sensor for an accurate average
-    unsigned long int avgValue;  //Store the average value of the sensor feedback
-  public:
-    PHSensor(int inputPin, String incomingPartID){
-      partID = incomingPartID;
-      pin = inputPin;
-
-    }
-
-    int getValue() {
-      // This might need rethinking since it looks a bit s l o w
-
-      for(int i=0;i<10;i++)       //Get 10 sample values from the sensor to smooth the result
-      {
-        buf[i]=analogRead(pin);
-        delay(1); // This delay might be too short
-      }
-      for(int i=0;i<9;i++)        //sort the analog from small to large
-      {
-        for(int j=i+1;j<10;j++)
-        {
-          if(buf[i]>buf[j])
-          {
-            temp=buf[i];
-            buf[i]=buf[j];
-            buf[j]=temp;
-          }
-        }
-      }
-      avgValue=0;
-      for(int i=2;i<8;i++){                      //take the average value of 6 center sample
-        avgValue+=buf[i];
-      }
-      float phValue=(float)avgValue*5.0/1024/6; //convert the analog into millivolt
-      phValue=3.5*phValue;                      //convert the millivolt into pH value
-      communication.bufferValue(this->partID,String(phValue)); // Send averaged sensor value
-      return 0;
-    }
-};
-
-class Temperature: public Input {
-    // Designed to be a generic interface for all output devices.
-
-  protected:
-    //bool initialised = false;
-    // Use software SPI: CS, DI, DO, CLK
-    Adafruit_MAX31865 max = Adafruit_MAX31865(10, 11, 12, 13);
-
-  public:
-    Temperature(String incomingPartID){
-      Wire.begin();
-      // Run parent method
-      partID = incomingPartID;
-      max.begin(MAX31865_3WIRE);
-    }
-
-    int getValue() {
-//      Serial.print("Temp: "); Serial.println(max.temperature(100, 430)); // Get temperature
-      communication.bufferValue(this->partID,String(max.temperature(100, 430)));
-      // Check and print any faults
-      uint8_t fault = max.readFault();
-
-      if (fault) {
-        if (fault & MAX31865_FAULT_HIGHTHRESH) {
-          communication.sendStatus(-14);
-        }
-        if (fault & MAX31865_FAULT_LOWTHRESH) {
-          communication.sendStatus(-15);
-        }
-        if (fault & MAX31865_FAULT_REFINLOW) {
-          communication.sendStatus(-16);
-        }
-        if (fault & MAX31865_FAULT_REFINHIGH) {
-          communication.sendStatus(-17);
-        }
-        if (fault & MAX31865_FAULT_RTDINLOW) {
-          communication.sendStatus(-18);
-        }
-        if (fault & MAX31865_FAULT_OVUV) {
-          communication.sendStatus(-19);
-        }
-        max.clearFault();
-      }
-    }
-};
-
-/*
-  The Sonar class represents the BlueRobotics Sonar (measuring distance) and sends this to the Pi using the communication class.
-*/
-class Sonar: public Input {
-    // Designed to be a generic interface for all output devices.
-
-  protected:
-    bool initialised = false;
-    Ping1D sonar { Serial1 }; // sonar object
-    int sonStart = 500, sonLen = 30000;
-    
-
-  public:
-    Sonar(String incomingPartID){
-      partID = incomingPartID;
-      Serial1.begin(115200); // sonar io
-      if(!sonar.initialize())
-      {
-        // Send error message because sensor not found
-        communication.sendStatus(-22);
-      }
-      else{
-        initialised = true;
-      }
-    }
-
-    int getValue() {
-      if(initialised){
-        if(sonar.update()){
-          communication.bufferValue(this->partID+"_Dist",String(sonar.distance()));
-          communication.bufferValue(this->partID+"_Conf",String(sonar.confidence()));
-        }
-        else{
-          // Throw error because this sensor could not update
-          communication.sendStatus(-21);
-          if(!sonar.initialize())
-          {
-            // Send error message because sensor not found
-            communication.sendStatus(-22);
-          }
-          else{
-            initialised = true;
-          }
-        }
-      }
-      else{
-        // Throw error because this sensor has not yet been initialised properly
-        communication.sendStatus(-20);
-      }
-      
-    }
-
-    /* Set parameters for sensor */
-    int setParam(int index, int value){
-      // Index 1 = start of scanning range
-      // Index 2 = length of scanning range
-      if(index == 1){
-        /* Set the start of the sonar range */
-        sonStart = value;
-        sonar.set_range(sonStart,sonLen);
-      }
-      else if(index == 2){
-        /* Set the length of the sonar range */
-        sonLen = value;
-        sonar.set_range(sonStart,sonLen);
-      }
-      else{
-        // Throw error because not valid index
-        communication.sendStatus(-23);
-      }
-    }
-};
 
 
 
