@@ -34,7 +34,7 @@ class Input {
     virtual int getValue();
 
     // set parameters for sensor on the fly. e.g. sonar range. Each index would represent a certain property
-    int setParam(int index, int value);
+    virtual int setParam(int index, int value);
 };
 
 /* ===========================Inputs=========================== */
@@ -86,9 +86,7 @@ class PHSensor: public Input {
 class Temperature: public Input {
 
   protected:
-    //bool initialised = false;
     // Use software SPI: CS, DI, DO, CLK
-    //Adafruit_MAX31865 maxAmp;
     Adafruit_MAX31865 maxAmp = Adafruit_MAX31865(10, 11, 12, 13);
 
   public:

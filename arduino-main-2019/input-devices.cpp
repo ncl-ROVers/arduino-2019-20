@@ -134,11 +134,7 @@ int PHSensor::getValue() {
   return 0;
 }
 
-//Adafruit_MAX31865 Temperature::maxAmp = Adafruit_MAX31865(10, 11, 12, 13);
-
 Temperature::Temperature(String incomingPartID){
-  // Use software SPI: CS, DI, DO, CLK
-  //maxAmp = Adafruit_MAX31865(10, 11, 12, 13);
   Wire.begin();
   // Run parent method
   partID = incomingPartID;
