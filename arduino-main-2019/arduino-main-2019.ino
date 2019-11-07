@@ -30,7 +30,6 @@ bool stringComplete = false;  // whether a full JSON string has been received
 unsigned long lastMessage; // The timestamp of when the last message was received
 bool safetyActive = false; // Whether output devices are stopped because no data was received
 
-
 Mapper mapper; // Lightweight replacement for a map/dictionary structure to map JSON IDs to objects representing devices.
 
 /* ============================================================ */
@@ -40,7 +39,7 @@ void setup() {
   arduinoID = "Ard_" + String(char(EEPROM.read(0)));
 
   // initialize serial:
-  Serial.begin(9600);
+  Serial.begin(115200);
   communication.sendStatus(4);
   // reserve 2000 bytes for the inputString:
   inputString.reserve(200);
