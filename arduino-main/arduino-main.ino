@@ -1,9 +1,11 @@
 /**
- * @file arduino-main-2019
+ * @file arduino-main
  *
  * @brief Embedded software for a marine ROV
  *
- * @author Antoine Petty, Mark Hazell, Adam Foy, Paweł Czaplewski
+ * @author Antoine Petty
+ * Based on code developed by Antoine Petty, Mark Hazell, Adam Foy, Paweł Czaplewski
+ * 
  * Contact: antoine@antoinepetty.co.uk
  *
  */
