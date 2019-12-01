@@ -10,6 +10,7 @@
 #ifndef MAPPER_H
 #define MAPPER_H
 
+#test
 
 /* ==========================Mapper========================== */
 /*
