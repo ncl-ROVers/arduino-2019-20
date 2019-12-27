@@ -32,6 +32,8 @@ bool safetyActive = false; // Whether output devices are stopped because no data
 
 Mapper mapper; // Lightweight replacement for a map/dictionary structure to map JSON IDs to objects representing devices.
 
+Communication communication; // Object to allow for communication with the Raspberry Pi over UART
+
 /* ============================================================ */
 /* =======================Setup function======================= */
 /* =============Runs once when Arduino is turned on============ */

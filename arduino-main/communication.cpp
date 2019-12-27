@@ -77,8 +77,6 @@ void Communication::sendAll(){
   currentPosition = 0;
 }
 
-Communication communication = Communication();
-
 
 /*
   SerialEvent occurs whenever a new data comes in the hardware serial RX. This
