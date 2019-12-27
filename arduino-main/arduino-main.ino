@@ -19,6 +19,8 @@
 #include "communication.h"
 #include "constants.h"
 #include "input-devices.h"
+#include "input.h"
+#include "imu.h"
 #include "output-devices.h"
 #include "mapper.h"
 
