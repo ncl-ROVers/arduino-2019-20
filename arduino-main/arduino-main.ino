@@ -25,8 +25,8 @@
 /* ============================================================ */
 /* ==================Set up global variables=================== */
 /* ============================================================ */
-String inputString = "";         // a String to hold incoming data
-bool stringComplete = false;  // whether a full JSON string has been received
+
+
 unsigned long lastMessage; // The timestamp of when the last message was received
 bool safetyActive = false; // Whether output devices are stopped because no data was received
 
@@ -41,8 +41,7 @@ void setup() {
   // initialize serial:
   Serial.begin(115200);
   communication.sendStatus(4);
-  // reserve 2000 bytes for the inputString:
-  inputString.reserve(200);
+  
 
 
   // Map inputs and outputs based on which Arduino this is
@@ -64,17 +63,17 @@ void setup() {
 /* ======Runs continuously after setup function finishes======= */
 void loop() {
   // parse the string when a newline arrives:
-  if (stringComplete) {
+  if (communication.stringIsComplete()) {
 
     // Set up JSON parser
     StaticJsonBuffer<1000> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(inputString);
+    JsonObject& root = jsonBuffer.parseObject(communication.getInputString());
     // Test if parsing succeeds.
     if (!root.success()) {
       communication.sendStatus(-11);
       communication.sendAll();
-      inputString = "";
-      stringComplete = false;
+      communication.setInputString("");
+      communication.setStringComplete(false);
       return;
     }
     safetyActive = false; // Switch off auto-off because valid message received
@@ -114,8 +113,8 @@ void loop() {
     // Finish by sending all the values
     communication.sendAll();
     // clear the string ready for the next input
-    inputString = "";
-    stringComplete = false;
+    communication.setInputString("");
+    communication.setStringComplete(false);
 
     // Update time last message received
     lastMessage = millis();
@@ -140,22 +139,4 @@ void loop() {
       mapper.sendAllSensors();
   }
 
-}
-
-/*
-  SerialEvent occurs whenever a new data comes in the hardware serial RX. This
-  routine is run between each time loop() runs, so using delay inside loop can
-  delay response. Multiple bytes of data may be available.
-*/
-void serialEvent() {
-  while (Serial.available()) {
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    // add it to the inputString:
-    if (inChar == '\n' || inChar == '\r') {
-      stringComplete = true;
-      break;
-    }
-    inputString += inChar;
-  }
 }

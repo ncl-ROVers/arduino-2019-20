@@ -18,9 +18,31 @@ class Communication{
     String key[ELEMENTCOUNT];
     String value[ELEMENTCOUNT];
     int currentPosition; // value of next free space
+    bool stringComplete = false;  // whether a full JSON string has been received
+    String inputString = "";         // a String to hold incoming data
 
   public:
     Communication();
+
+    /*
+      Whether full string had been received
+    */
+    void setStringComplete(bool complete);
+
+    /*
+      Whether full string had been received
+    */
+    bool stringIsComplete();
+
+    /*
+      The latest JSON string read from the serial port
+    */
+    void setInputString(String inputStr);
+
+    /*
+      The latest JSON string read from the serial port
+    */
+    String getInputString();
   
     /*
       Increment currentValue and send all values if buffer is full
