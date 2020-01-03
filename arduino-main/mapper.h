@@ -1,5 +1,11 @@
 #include <Arduino.h>
-#include "input-devices.h"
+//#include "input-devices.h"
+#include "input.h"
+#include "imu.h"
+#include "depth.h"
+#include "phsensor.h"
+#include "sonar.h"
+#include "temperature.h"
 #include "output-devices.h"
 #include "constants.h"
 
