@@ -18,9 +18,13 @@
 // Custom ROV Libaries
 #include "communication.h"
 #include "constants.h"
-#include "input-devices.h"
+//#include "input-devices.h"
 #include "input.h"
 #include "imu.h"
+#include "depth.h"
+#include "phsensor.h"
+#include "sonar.h"
+#include "temperature.h"
 #include "output-devices.h"
 #include "mapper.h"
 

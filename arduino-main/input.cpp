@@ -1,13 +1,13 @@
 #include "input.h"
 
-int pin = 0;
-
-String partID="Part ID not set.";
-
-int getValue() {
+Input::Input(){
+  pin=0;
+  partID="Part ID not set.";
+}
+int Input::getValue() {
   return 0;
 }
 
-int setParam(int index, int value){
+int Input::setParam(int index, int value){
   return 0;
 }
