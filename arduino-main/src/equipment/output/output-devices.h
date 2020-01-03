@@ -3,7 +3,7 @@
 #ifndef OUTPUTS
 #define OUTPUTS
 
-#include "communication.h"
+#include "../../communication/communication.h"
 #include <Servo.h> // For controlling servos and thrusters
 
 /*

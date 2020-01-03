@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "input.h"
-#include "communication.h"
+#include "../../communication/communication.h"
 
 /*
   The PHSensor class represents a PH sensor which measures the water outside the ROV and sends the data to the Pi using the communication class.

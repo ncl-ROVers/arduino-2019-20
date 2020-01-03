@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "input.h"
-#include "communication.h"
+#include "../../communication/communication.h"
 
 #include <Wire.h>
 #include "MS5837.h"
