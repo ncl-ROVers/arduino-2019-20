@@ -1,5 +1,4 @@
 #include "communication.h"
-#include "constants.h"
 
 Communication::Communication(){
   currentPosition = 0;

@@ -16,17 +16,12 @@
 
 
 // Custom ROV Libaries
-#include "communication.h"
-#include "constants.h"
+#include "./src/communication/communication.h"
+#include "./src/util/constants.h"
 //#include "input-devices.h"
-#include "input.h"
-#include "imu.h"
-#include "depth.h"
-#include "phsensor.h"
-#include "sonar.h"
-#include "temperature.h"
-#include "output-devices.h"
-#include "mapper.h"
+#include "./src/equipment/input/input.h"
+#include "./src/equipment/output/output-devices.h"
+#include "./src/util/mapper.h"
 
 /* ============================================================ */
 /* ==================Set up global variables=================== */

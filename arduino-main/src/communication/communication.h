@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include <EEPROM.h>
 #include <ArduinoJson.h>
+#include "../util/constants.h"
 
 #define ELEMENTCOUNT 20
 
