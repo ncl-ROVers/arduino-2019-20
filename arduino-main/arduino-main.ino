@@ -20,7 +20,8 @@
 #include "./src/util/constants.h"
 //#include "input-devices.h"
 #include "./src/equipment/input/input.h"
-#include "./src/equipment/output/output-devices.h"
+//#include "./src/equipment/output/output-devices.h"
+#include "./src/equipment/output/output.h"
 #include "./src/util/mapper.h"
 
 /* ============================================================ */
