@@ -1,5 +1,5 @@
 /**
- * @file arduino-main-2019
+ * @file arduino-main
  *
  * @brief Embedded software for a marine ROV
  *
@@ -34,11 +34,13 @@ Mapper mapper; // Lightweight replacement for a map/dictionary structure to map 
 
 Communication communication; // Object to allow for communication with the Raspberry Pi over UART
 
+
+
 /* ============================================================ */
 /* =======================Setup function======================= */
 /* =============Runs once when Arduino is turned on============ */
 void setup() {
-  arduinoID = "Ard_" + String(char(EEPROM.read(0)));
+  arduinoID = ARD + String(char(EEPROM.read(0)));
 
   // initialize serial:
   Serial.begin(115200);
@@ -47,13 +49,13 @@ void setup() {
 
 
   // Map inputs and outputs based on which Arduino this is
-  if (arduinoID == "Ard_T") {
+  if (arduinoID == ARD + "T") {
     mapper.mapT();
   }
-  else if (arduinoID == "Ard_I"){
+  else if (arduinoID == ARD + "I"){
     mapper.mapI();
   }
-  else if (arduinoID == "Ard_M"){
+  else if (arduinoID == ARD + "M"){
     mapper.mapM();
   }
   communication.sendAll();
@@ -81,7 +83,7 @@ void loop() {
     safetyActive = false; // Switch off auto-off because valid message received
 
     // Act on incoming message accordingly
-    if(arduinoID=="Ard_T" || arduinoID=="Ard_M"){
+    if(arduinoID== ARD + "T" || arduinoID == ARD + "M"){
       for(const auto& current: root){
         // For each incoming value
         int setValue = mapper.getOutput(current.key)->setValue(current.value);
@@ -90,7 +92,7 @@ void loop() {
         }
       }
     }
-    else if (arduinoID=="Ard_I"){
+    else if (arduinoID == ARD + "I"){
       
       for(const auto& current: root){
         int setValue = current.value;
@@ -125,7 +127,7 @@ void loop() {
 
   // Code to run all the time goes here:
 
-  if(arduinoID=="Ard_T" || arduinoID=="Ard_M"){
+  if(arduinoID == ARD + "T" || arduinoID == ARD + "M"){
     // This Arduino is for outputting
     // Check if it's been too long since last message - bad sign
     // Turn everything off
@@ -136,7 +138,7 @@ void loop() {
       mapper.stopOutputs();
     }
   }
-  else if(arduinoID=="Ard_I"){
+  else if(arduinoID == ARD + "I"){
     // Output all sensor data
       mapper.sendAllSensors();
   }
