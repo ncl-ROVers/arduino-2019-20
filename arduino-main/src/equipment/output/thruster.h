@@ -1,5 +1,5 @@
-#ifndef DEPTH_H
-#define DEPTH_H
+#ifndef THRUSTER
+#define THRUSTER
 
 #include <Arduino.h>
 #include "output.h"
