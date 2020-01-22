@@ -1,5 +1,5 @@
 /**
- * @file arduino-main-2019
+ * @file arduino-main
  *
  * @brief Embedded software for a marine ROV
  *
@@ -27,34 +27,37 @@
 /* ============================================================ */
 /* ==================Set up global variables=================== */
 /* ============================================================ */
-String inputString = "";         // a String to hold incoming data
-bool stringComplete = false;  // whether a full JSON string has been received
+
+
 unsigned long lastMessage; // The timestamp of when the last message was received
 bool safetyActive = false; // Whether output devices are stopped because no data was received
 
 Mapper mapper; // Lightweight replacement for a map/dictionary structure to map JSON IDs to objects representing devices.
 
+Communication communication; // Object to allow for communication with the Raspberry Pi over UART
+
+
+
 /* ============================================================ */
 /* =======================Setup function======================= */
 /* =============Runs once when Arduino is turned on============ */
 void setup() {
-  arduinoID = "Ard_" + String(char(EEPROM.read(0)));
+  arduinoID = ARD + String(char(EEPROM.read(0)));
 
   // initialize serial:
   Serial.begin(115200);
   communication.sendStatus(4);
-  // reserve 2000 bytes for the inputString:
-  inputString.reserve(200);
+  
 
 
   // Map inputs and outputs based on which Arduino this is
-  if (arduinoID == "Ard_T") {
+  if (arduinoID == ARD + "T") {
     mapper.mapT();
   }
-  else if (arduinoID == "Ard_I"){
+  else if (arduinoID == ARD + "I"){
     mapper.mapI();
   }
-  else if (arduinoID == "Ard_M"){
+  else if (arduinoID == ARD + "M"){
     mapper.mapM();
   }
   communication.sendAll();
@@ -66,98 +69,103 @@ void setup() {
 /* ======Runs continuously after setup function finishes======= */
 void loop() {
   // parse the string when a newline arrives:
-  if (stringComplete) {
+  if (communication.stringIsComplete()) {
 
     // Set up JSON parser
     StaticJsonBuffer<1000> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(inputString);
+    JsonObject& root = jsonBuffer.parseObject(communication.getInputString());
     // Test if parsing succeeds.
     if (!root.success()) {
       communication.sendStatus(-11);
-      communication.sendAll();
-      inputString = "";
-      stringComplete = false;
+      prepareForNewMessage();
       return;
     }
     safetyActive = false; // Switch off auto-off because valid message received
 
     // Act on incoming message accordingly
-    if(arduinoID=="Ard_T" || arduinoID=="Ard_M"){
-      for(const auto& current: root){
-        // For each incoming value
-        int setValue = mapper.getOutput(current.key)->setValue(current.value);
-        if(setValue == current.value) {
-          communication.sendStatus(0);
-        }
-      }
+    if(arduinoID== ARD + "T" || arduinoID == ARD + "M"){
+      handleOutputCommands(root);
     }
-    else if (arduinoID=="Ard_I"){
-      
-      for(const auto& current: root){
-        int setValue = current.value;
-        
-        // Sonar has custom range settings.
-        if(current.key == "Sen_Sonar_Start"){
-          setValue = mapper.getInput("Sen_Sonar")->setParam(1,current.value);
-        }
-        else if(current.key == "Sen_Sonar_Len"){
-          setValue = mapper.getInput("Sen_Sonar")->setParam(2,current.value);
-        }
-
-        if(setValue == current.value) {
-          communication.sendStatus(0);
-        }
-      }
-      
+    else if (arduinoID == ARD + "I"){
+      handleSensorCommands(root);
     }
     else{
       communication.sendStatus(-12);
     }
-    // Finish by sending all the values
-    communication.sendAll();
-    // clear the string ready for the next input
-    inputString = "";
-    stringComplete = false;
+    prepareForNewMessage();
 
-    // Update time last message received
-    lastMessage = millis();
+    updateMostRecentMessageTime();
 
   }
 
   // Code to run all the time goes here:
 
-  if(arduinoID=="Ard_T" || arduinoID=="Ard_M"){
+  if(arduinoID == ARD + "T" || arduinoID == ARD + "M"){
     // This Arduino is for outputting
-    // Check if it's been too long since last message - bad sign
-    // Turn everything off
-    if(millis() - lastMessage > 1000 && !safetyActive){ // 1 second limit
-      safetyActive = true; //activate safety
-      communication.sendStatus(-13);
-      communication.sendAll();
-      mapper.stopOutputs();
-    }
+    disableOutputsIfNoMessageReceived(safetyShutoffTimeMs);
   }
-  else if(arduinoID=="Ard_I"){
+  else if(arduinoID == ARD + "I"){
     // Output all sensor data
       mapper.sendAllSensors();
   }
 
 }
 
-/*
-  SerialEvent occurs whenever a new data comes in the hardware serial RX. This
-  routine is run between each time loop() runs, so using delay inside loop can
-  delay response. Multiple bytes of data may be available.
-*/
-void serialEvent() {
-  while (Serial.available()) {
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    // add it to the inputString:
-    if (inChar == '\n' || inChar == '\r') {
-      stringComplete = true;
-      break;
-    }
-    inputString += inChar;
+/* If no valid message has been received within a sensible amount of time, switch all devices off for safety */
+void disableOutputsIfNoMessageReceived(int timeInMs){
+  if(TimeSinceLastMessageExceeds(timeInMs) && !safetyActive){ // 1 second limit
+    safetyActive = true; //activate safety
+    communication.sendStatus(-13);
+    communication.sendAll();
+    mapper.stopOutputs();
   }
+}
+
+/* Check if it's been a certain amount of time since the last valid message was received */
+bool TimeSinceLastMessageExceeds(int timeInMs){
+  return millis() - lastMessage > timeInMs;
+}
+
+/* Update time last valid message received */
+void updateMostRecentMessageTime(){
+  lastMessage = millis();
+}
+
+/* Handle each control value from the incoming JSON message */
+void handleOutputCommands(JsonObject& root){
+  for(const auto& current: root){
+    // For each incoming value
+    int setValue = mapper.getOutput(current.key)->setValue(current.value);
+    if(setValue == current.value) {
+      communication.sendStatus(0);
+    }
+  }
+}
+
+/* Handle each control value from the incoming JSON message (Ard_I Only) */
+void handleSensorCommands(JsonObject& root){
+  for(const auto& current: root){
+    int setValue = current.value;
+    
+    // Sonar has custom range settings.
+    if(current.key == "Sen_Sonar_Start"){
+      setValue = mapper.getInput("Sen_Sonar")->setParam(1,current.value);
+    }
+    else if(current.key == "Sen_Sonar_Len"){
+      setValue = mapper.getInput("Sen_Sonar")->setParam(2,current.value);
+    }
+
+    if(setValue == current.value) {
+      communication.sendStatus(0);
+    }
+  }
+}
+
+/* Send response, clear the input buffer and wait for new incoming message */
+void prepareForNewMessage(){
+  // Finish by sending all the values
+  communication.sendAll();
+  // clear the string ready for the next input
+  communication.setInputString("");
+  communication.setStringComplete(false);
 }
