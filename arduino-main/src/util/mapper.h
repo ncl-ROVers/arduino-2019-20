@@ -1,14 +1,23 @@
-#include <Arduino.h>
-#include "input-devices.h"
-#include "output-devices.h"
-#include "constants.h"
-
 #define T_COUNT 11 // Number of devices attached to Arduino T
 #define I_COUNT 5 // Number of devices attached to Arduino I
 #define M_COUNT 1 // Number of devices attached to Arduino M
 
 #ifndef MAPPER_H
 #define MAPPER_H
+
+#include <Arduino.h>
+#include "../equipment/input/input.h"
+#include "../equipment/input/imu.h"
+#include "../equipment/input/depth.h"
+#include "../equipment/input/phsensor.h"
+#include "../equipment/input/sonar.h"
+#include "../equipment/input/temperature.h"
+//#include "../equipment/output/output-devices.h"
+#include "../equipment/output/output.h"
+#include "../equipment/output/thruster.h"
+#include "../equipment/output/armgripper.h"
+#include "../equipment/output/armrotation.h"
+#include "constants.h"
 
 
 /* ==========================Mapper========================== */
