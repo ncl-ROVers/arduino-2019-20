@@ -12,6 +12,17 @@ To install this code on an Arduino you first need to run the appropriate setup s
 
 After running the setup script, flash arduino-main to the device.
 
+### Dependencies
+You need to install the following libraries in your IDE: 
+adafruit bno055
+adafruit circuit playground
+adafruit max31865
+arduinojson (select version 5.13.4)
+bluerobotics ms5837
+servo
+Blue Robotics ping-arduino
+adafruit unified sensor
+
 ## Expected behaviour
 
 ### Arduino T
