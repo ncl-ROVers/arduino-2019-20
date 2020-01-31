@@ -21,9 +21,9 @@ You need to install the following libraries in your IDE:
 - adafruit max31865
 - arduinojson (select version 5.13.4)
 - bluerobotics ms5837
-- servo
 - Blue Robotics ping-arduino
 - adafruit unified sensor
+- adafruit pwm servo driver
 
 ## Expected behaviour
 

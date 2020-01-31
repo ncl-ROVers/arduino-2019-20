@@ -97,13 +97,13 @@ void Mapper::sendAllSensors(){
     int retcode = 0;
     for(int i = 0; i < I_COUNT; i++){
     if (retcode == 0) {
-    retcode = iObjects[i]->getValue();
+        retcode = iObjects[i]->getValue();
     } else {
         iObjects[i]->getValue();
     }
     }
     if(retcode == 0) {
-    communication.sendStatus(0);
+        communication.sendStatus(0);
     }
     communication.sendAll();
 }

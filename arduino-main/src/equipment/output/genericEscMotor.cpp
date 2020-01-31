@@ -1,7 +1,7 @@
-#include "thruster.h"
+#include "genericEscMotor.h"
 
-Thruster::Thruster (int inputPin, String partID) {
-    this->partID = partID;
+EscMotor::EscMotor (int inputPin, String partID) {
+  this->partID = partID;
   // Set limit and starting values
   maxValue = 1900;
   minValue = 1100;
@@ -9,7 +9,7 @@ Thruster::Thruster (int inputPin, String partID) {
   currentValue = stoppedValue;
 
   pin = inputPin; // Record the associated pin
-  thruster = Adafruit_PWMServoDriver(); // Call Adafruit constructor
+  motor = Adafruit_PWMServoDriver(); // Call Adafruit constructor
   
   motor.begin();
 
@@ -18,7 +18,7 @@ Thruster::Thruster (int inputPin, String partID) {
   //thruster.writeMicroseconds(stoppedValue); // Set value to "stopped"
 }
 
-int Thruster::setValue(int inputValue) {
+int EscMotor::setValue(int inputValue) {
   // call parent logic (keeps value within preset boundary)
   int value = Output::setValue(inputValue);
   // Actually control the device
@@ -27,7 +27,7 @@ int Thruster::setValue(int inputValue) {
   return value;
 }
 
-void Thruster::turnOff(){
+void EscMotor::turnOff(){
   //Serial.println(partID);
   // Switch off in case of emergency
   currentValue = stoppedValue;
