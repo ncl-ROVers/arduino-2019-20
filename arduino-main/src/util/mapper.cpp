@@ -30,7 +30,7 @@ void Mapper::mapI(){
 }
 
 void Mapper::mapM(){
-    mObjects[0] = new Thruster(0,mIDs[0]); // Micro ROV Thruster
+    mObjects[0] = new Thruster(3,mIDs[0]); // Micro ROV Thruster
 }
 
 Output* Mapper::getOutput(String jsonID){

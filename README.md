@@ -37,17 +37,19 @@ Thrusters are given an ID which describes their position on the ROV. Motors are 
 
 | Pin | JSON ID | Description                                 |
 |-----|---------|---------------------------------------------|
-| 2   | Thr_FP  | Forward Port Thruster (front right)         |
-| 3   | Thr_FS  | Forward Starboard Thruster (front left)     |
-| 4   | Thr_AP  | Aft Port Thruster (back left)               |
-| 5   | Thr_AS  | Aft Starboard Thruster (back right)         |
-| 6   | Thr_TFP | Top Forward Port Thruster (front right)     |
-| 7   | Thr_TFS | Top Forward Starboard Thruster (front left) |
-| 8   | Thr_TAP | Top Aft Port Thruster (back left)           |
-| 9   | Thr_TAS | Top Aft Starboard Thruster (back right)     |
-| 10  | Mot_R   | Arm Rotation Motor                          |
-| 11  | Mot_G   | Arm Gripper Motor                           |
-| 12  | Mot_F   | Fish Box Opening Motor                      |
+| 0*  | Thr_FP  | Forward Port Thruster (front right)         |
+| 1*  | Thr_FS  | Forward Starboard Thruster (front left)     |
+| 2*  | Thr_AP  | Aft Port Thruster (back left)               |
+| 3*  | Thr_AS  | Aft Starboard Thruster (back right)         |
+| 4*  | Thr_TFP | Top Forward Port Thruster (front right)     |
+| 5*  | Thr_TFS | Top Forward Starboard Thruster (front left) |
+| 6*  | Thr_TAP | Top Aft Port Thruster (back left)           |
+| 7*  | Thr_TAS | Top Aft Starboard Thruster (back right)     |
+| 8*  | Mot_R   | Arm Rotation Motor                          |
+| 9*  | Mot_G   | Arm Gripper Motor                           |
+| 10* | Mot_F   | Fish Box Opening Motor                      |
+
+* These pins are the pins on the servo control board
 
 ### Arduino M
 
