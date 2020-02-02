@@ -9,7 +9,7 @@
 void Mapper::mapT(){
     int numberOfThrusters = 8;
     for ( int i = 0; i < numberOfThrusters; i++) {
-        tObjects[i] = new Thruster(2+i, tIDs[i]); // The 8 movement Thrusters
+        tObjects[i] = new Thruster(i, tIDs[i]); // The 8 movement Thrusters
     }
     // Delays between each device so they initialise separately. This helps to give an auditory signal that everything is connected properly.
     delay(2000);
@@ -30,7 +30,7 @@ void Mapper::mapI(){
 }
 
 void Mapper::mapM(){
-    mObjects[0] = new Thruster(3,mIDs[0]); // Micro ROV Thruster
+    mObjects[0] = new Thruster(0,mIDs[0]); // Micro ROV Thruster
 }
 
 Output* Mapper::getOutput(String jsonID){

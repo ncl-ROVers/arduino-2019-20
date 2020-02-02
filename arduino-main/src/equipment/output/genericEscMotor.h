@@ -16,7 +16,7 @@ class EscMotor: public Output {
 
   protected:
     // Represents a motor controlled by an ESC
-    Adafruit_PWMServoDriver motor;
+    Adafruit_PWMServoDriver motor = Adafruit_PWMServoDriver();
 
   public:
 
