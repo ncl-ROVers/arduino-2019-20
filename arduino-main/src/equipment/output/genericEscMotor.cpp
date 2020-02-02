@@ -16,7 +16,7 @@ EscMotor::EscMotor (int inputPin, String partID) {
   currentValue = stoppedValue;
 
   pin = inputPin; // Record the associated pin
-  //motor = Adafruit_PWMServoDriver(); // Call Adafruit constructor
+  motor = Adafruit_PWMServoDriver(); // Call Adafruit constructor
   
   motor.begin();
 
