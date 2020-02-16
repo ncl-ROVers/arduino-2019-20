@@ -10,6 +10,7 @@ Output::Output() {
 }
 
 int Output::setValue(int inputValue) {
+  Serial.println("Output set");
   int value = inputValue;
   // Method to set thrust capped to min and max
 

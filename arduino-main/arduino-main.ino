@@ -68,7 +68,8 @@ void setup() {
   // DEBUG
   Serial.println("BEFORE");
   //mapper.getOutput("Thr_FP")->setValue(1500);
-  EscMotor* testMotor = new EscMotor(0,"testMotor");
+  //EscMotor* testMotor = new EscMotor(0,"testMotor");
+  delay(1000);
   Serial.println("Object created");
   Serial.println("Setting value in array");
   mapper.getOutput("Thr_FP")->setValue(1500);

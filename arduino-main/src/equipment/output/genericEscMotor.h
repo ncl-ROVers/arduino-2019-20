@@ -4,8 +4,6 @@
 #include <Arduino.h>
 #include "output.h"
 #include "../../communication/communication.h"
-
-#include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
 /*
@@ -16,7 +14,10 @@ class EscMotor: public Output {
 
   protected:
     // Represents a motor controlled by an ESC
-    Adafruit_PWMServoDriver motor;
+    static Adafruit_PWMServoDriver motor;
+    static bool motorInstantiated;
+
+    static void instantiateMotor();
 
   public:
 

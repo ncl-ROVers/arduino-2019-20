@@ -9,6 +9,7 @@ Thruster::Thruster (int inputPin, String partID) : EscMotor(inputPin, partID){
 }
 
 int Thruster::setValue(int inputValue) {
+  Serial.println("Thruster Set");
   // call parent logic (keeps value within preset boundary)
   int value = EscMotor::setValue(inputValue);
   // Return the set value

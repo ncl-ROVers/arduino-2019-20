@@ -19,26 +19,25 @@ EscMotor::EscMotor (int inputPin, String partID) {
   Serial.print("1");
 
   pin = inputPin; // Record the associated pin
-  motor = Adafruit_PWMServoDriver(); // Call Adafruit constructor
+  EscMotor::instantiateMotor();
   Serial.print("2");
-  motor.begin();
+  
   Serial.print("3");
-  // In theory the internal oscillator is 25MHz but it really isn't
-  // that precise. You can 'calibrate' by tweaking this number till
-  // you get the frequency you're expecting!
-  motor.setOscillatorFrequency(27000000);  // The int.osc. is closer to 27MHz  
-  motor.setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
+  
   Serial.print("4");
   setValue(stoppedValue);
   Serial.println("5");
 }
 
 int EscMotor::setValue(int inputValue) {
+  Serial.println("ESC Set");
   // call parent logic (keeps value within preset boundary)
   int value = Output::setValue(inputValue);
   // Actually control the device
-  motor.writeMicroseconds(pin, value);
+  Serial.println("Write to motor END OF THE LINE PROBS");
+  EscMotor::motor.writeMicroseconds(pin, value);
   // Return the set value
+  Serial.println("ESC return");
   return value;
 }
 
@@ -46,4 +45,19 @@ void EscMotor::turnOff(){
   //Serial.println("DEBUG: Turning off " + partID);
   // Switch off in case of emergency
   setValue(stoppedValue);
+}
+
+bool EscMotor::motorInstantiated = false;
+
+void EscMotor::instantiateMotor(){
+  if(!EscMotor::motorInstantiated){
+    EscMotor::motor = Adafruit_PWMServoDriver(); // Call Adafruit constructor
+    EscMotor::motor.begin();
+    // In theory the internal oscillator is 25MHz but it really isn't
+    // that precise. You can 'calibrate' by tweaking this number till
+    // you get the frequency you're expecting!
+    EscMotor::motor.setOscillatorFrequency(27000000);  // The int.osc. is closer to 27MHz  
+    EscMotor::motor.setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
+    EscMotor::motorInstantiated = true;
+  }
 }
