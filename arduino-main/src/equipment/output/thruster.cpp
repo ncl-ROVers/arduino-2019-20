@@ -17,5 +17,7 @@ int Thruster::setValue(int inputValue) {
 
 void Thruster::turnOff(){
   // Switch off in case of emergency
+  Serial.println("Turning off " + partID);
+  //EscMotor::setValue(stoppedValue);
   setValue(stoppedValue);
 }
