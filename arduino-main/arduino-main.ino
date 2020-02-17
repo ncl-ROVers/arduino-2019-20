@@ -72,18 +72,7 @@ void setup() {
 void loop() {
   // parse the string when a newline arrives:
   if (communication.stringIsComplete()) {
-
-    // Set up JSON parser
-    StaticJsonBuffer<1000> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(communication.getInputString());
-    // Test if parsing succeeds.
-    if (!root.success()) {
-      communication.sendStatus(-11);
-      prepareForNewMessage();
-      return;
-    }
-    safetyActive = false; // Switch off auto-off because valid message received
-
+    
     // Act on incoming message accordingly
     if(arduinoID== ARD + "T" || arduinoID == ARD + "M"){
       handleOutputCommands(root);
