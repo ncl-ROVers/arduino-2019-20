@@ -29,15 +29,12 @@ class Mapper {
   private:
     // t for Ard_T (Thrusters)
     Output* tObjects[T_COUNT];  // Devices attached to Arduino T
-    String tIDs[T_COUNT] = {"Thr_FP", "Thr_FS", "Thr_AP", "Thr_AS", "Thr_TFP", "Thr_TFS", "Thr_TAP", "Thr_TAS", "Mot_R", "Mot_G", "Mot_F"};
 
     // i for Ard_I (Input)
     Input* iObjects[I_COUNT];
-    String iIDs[I_COUNT] = {"Sen_IMU", "Sen_Dep", "Sen_PH", "Sen_Temp", "Sen_Sonar"};
 
     // m for Ard_M (Micro ROV)
     Output* mObjects[M_COUNT]; // Devices attached to Arduino M
-    String mIDs[M_COUNT] = {"Thr_M"};
 
   public:
     //Mapper();

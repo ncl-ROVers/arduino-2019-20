@@ -18,7 +18,7 @@ class Depth: public Input {
     MS5837 depthSensor;
 
   public:
-    Depth(int inputPin, String incomingPartID);
+    Depth(int inputPin);
 
     int getValue();
 };

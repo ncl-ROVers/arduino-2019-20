@@ -9,44 +9,36 @@
 void Mapper::mapT(){
     int numberOfThrusters = 8;
     for ( int i = 0; i < numberOfThrusters; i++) {
-        tObjects[i] = new Thruster(2+i, tIDs[i]); // The 8 movement Thrusters
+        tObjects[i] = new Thruster(2+i); // The 8 movement Thrusters
     }
     // Delays between each device so they initialise separately. This helps to give an auditory signal that everything is connected properly.
     delay(2000);
-    tObjects[8] = new ArmRotation(10, tIDs[8]); // Rotation motor for the arm
+    tObjects[8] = new ArmRotation(10); // Rotation motor for the arm
     delay(2000);
-    tObjects[9] = new ArmGripper(11, tIDs[9],54,55); // Gripper motor for the arm
+    tObjects[9] = new ArmGripper(11); // Gripper motor for the arm
     delay(2000);
-    tObjects[10] = new ArmGripper(12, tIDs[10],56,57); // Fish box opening
+    tObjects[10] = new ArmGripper(12); // Fish box opening
 }
 
 void Mapper::mapI(){
     // Map and initialise sensors
-    iObjects[0] = new IMU(0,iIDs[0]);
-    iObjects[1] = new Depth(0,iIDs[1]);
-    iObjects[2] = new PHSensor(56,iIDs[2]);
-    iObjects[3] = new Temperature(iIDs[3]);
-    iObjects[4] = new Sonar(iIDs[4]);
+    iObjects[0] = new IMU(0);
+    iObjects[1] = new Depth(0);
+    iObjects[2] = new PHSensor(56);
+    iObjects[3] = new Temperature();
+    iObjects[4] = new Sonar();
 }
 
 void Mapper::mapM(){
-    mObjects[0] = new Thruster(3,mIDs[0]); // Micro ROV Thruster
+    mObjects[0] = new Thruster(3); // Micro ROV Thruster
 }
 
-Output* Mapper::getOutput(String jsonID){
+Output* Mapper::getOutput(int pos){
     if(arduinoID==ARD + "T"){
-    for(int i = 0; i < T_COUNT; i++){
-        if(jsonID == tIDs[i]){
-        return tObjects[i];
-        }
-    }
+        return tObjects[pos];
     }
     else if(arduinoID==ARD + "M"){
-    for(int i = 0; i < M_COUNT; i++){
-        if(jsonID == mIDs[i]){
-        return mObjects[i];
-        }
-    }
+        return mObjects[pos];
     }
     else{
     // Send error message saying the Arduino was not found
@@ -55,7 +47,7 @@ Output* Mapper::getOutput(String jsonID){
     return new Output();
     }
     // Send error message saying the device was not found
-    String errorMessage = "Output device ID is not valid: "+jsonID;
+    String errorMessage = "Output device position is not valid: "+pos;
     communication.sendStatus(-8);
     return new Output();
 }

@@ -1,9 +1,8 @@
 #include "imu.h"
 
-IMU::IMU(int inputPin, String incomingPartID){
+IMU::IMU(int inputPin){
   initialised = false;
   imu = Adafruit_BNO055(55); // IMU device
-  partID = incomingPartID;
   if(!imu.begin())
   {
     // Send error message

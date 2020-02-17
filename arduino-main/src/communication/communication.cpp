@@ -26,17 +26,14 @@ void Communication::incrementPosition(){
   currentPosition++;
 }
 
-void Communication::bufferValue(String device, String incomingValue){
+void Communication::bufferValue(String incomingValue){
   // buffer a key value pair to be sent with next load
-  key[currentPosition] = device;
   value[currentPosition] = incomingValue;
   incrementPosition();
 }
 
 void Communication::bufferError(int code){
   // buffer an error message to be sent with next load
-  String tempKey = "status_" + String(char(EEPROM.read(0)));
-  key[currentPosition] = tempKey;
   value[currentPosition] = code;
   incrementPosition();
 }
