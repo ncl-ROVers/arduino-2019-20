@@ -7,6 +7,9 @@
 #define USMAX  2400 // This is the rounded 'maximum' microsecond length based on the maximum pulse of 600
 #define SERVO_FREQ 50 // Analog servos run at ~50 Hz updates
 
+// Represents a motor controlled by an ESC
+Adafruit_PWMServoDriver EscMotor::motor;
+
 EscMotor::EscMotor (int inputPin, String partID) {
   this->partID = partID;
   // Set limit and starting values
@@ -16,17 +19,12 @@ EscMotor::EscMotor (int inputPin, String partID) {
   currentValue = stoppedValue;
 
   Serial.print(partID);
-  Serial.print("1");
 
   pin = inputPin; // Record the associated pin
   EscMotor::instantiateMotor();
-  Serial.print("2");
   
-  Serial.print("3");
-  
-  Serial.print("4");
   setValue(stoppedValue);
-  Serial.println("5");
+
 }
 
 int EscMotor::setValue(int inputValue) {

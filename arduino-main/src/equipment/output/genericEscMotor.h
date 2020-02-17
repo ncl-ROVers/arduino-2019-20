@@ -16,7 +16,6 @@ class EscMotor: public Output {
     // Represents a motor controlled by an ESC
     static Adafruit_PWMServoDriver motor;
     static bool motorInstantiated;
-
     static void instantiateMotor();
 
   public:
