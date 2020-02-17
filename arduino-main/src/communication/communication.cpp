@@ -24,10 +24,6 @@ String Communication::getInputString(){
 
 void Communication::incrementPosition(){
   currentPosition++;
-  if(currentPosition>=ELEMENTCOUNT){
-    sendAll();
-    currentPosition = 0;
-  }
 }
 
 void Communication::bufferValue(String device, String incomingValue){
