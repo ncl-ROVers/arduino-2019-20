@@ -1,7 +1,6 @@
 #include "armrotation.h"
 
-ArmRotation::ArmRotation (int inputPin, String partID) {
-  this->partID = partID;
+ArmRotation::ArmRotation (int inputPin) {
 
   // Set limit and starting values
   maxValue = 1650;

@@ -16,7 +16,6 @@ class Output {
     int currentValue; // The current value of this device (e.g. PWM value representing speed)
     int stoppedValue; // The control value (e.g. PWM value representing speed) which means this device is stopped/not moving
     int pin; // The physical pin this is associated with
-    String partID; // The JSON Part ID of this device
 
   public:
     Output();
@@ -35,11 +34,6 @@ class Output {
       Something which needs to be run all the time
     */
     virtual void constantTask();
-
-    /*
-      Get the JSON ID for this device
-    */
-    String getID ();
 
     /*
       Switch device off - for safety

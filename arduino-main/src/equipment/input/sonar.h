@@ -19,7 +19,7 @@ class Sonar: public Input {
     int sonStart, sonLen;
     
   public:
-    Sonar(String incomingPartID);
+    Sonar();
 
     int getValue();
 

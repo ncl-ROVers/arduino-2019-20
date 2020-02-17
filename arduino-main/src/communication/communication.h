@@ -53,7 +53,7 @@ class Communication{
     /*
       Buffer a key:value pair to be sent to the Pi
     */
-    void bufferValue(String device, String incomingValue);
+    void bufferValue(String incomingValue);
 
     /*
       Buffer an error message to be sent to the PI

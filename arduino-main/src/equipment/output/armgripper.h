@@ -21,7 +21,7 @@ class ArmGripper: public Output {
 
  public:
 
-    ArmGripper(int inputPin, String partID, int limitPinLeft, int limitPinRight );
+    ArmGripper(int inputPin, int limitPinLeft, int limitPinRight );
 
     int setValue(int inputValue);
 

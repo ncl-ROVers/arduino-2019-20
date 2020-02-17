@@ -57,12 +57,12 @@ class Mapper {
     /*
       Get the object representing an output device connected to this Arduino with the specified JSON ID
      */
-    Output* getOutput(String jsonID);
+    Output* getOutput(int pos);
 
     /*
       Get the object representing a senor connected to this Arduino with the specified JSON ID
      */
-    Input* getInput(String jsonID);
+    Input* getInput(int pos);
 
     /*
       Get the number of sensors

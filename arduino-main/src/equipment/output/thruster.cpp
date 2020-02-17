@@ -1,7 +1,6 @@
 #include "thruster.h"
 
-Thruster::Thruster (int inputPin, String partID) {
-  this->partID = partID;
+Thruster::Thruster (int inputPin) {
   // Set limit and starting values
   maxValue = 1900;
   minValue = 1100;

@@ -1,14 +1,13 @@
 #include "temperature.h"
 
-Temperature::Temperature(String incomingPartID){
+Temperature::Temperature(){
   Wire.begin();
   // Run parent method
-  partID = incomingPartID;
   maxAmp.begin(MAX31865_3WIRE);
 }
 
 int Temperature::getValue() {
-  communication.bufferValue(this->partID,String(maxAmp.temperature(100, 430)));
+  communication.bufferValue(String(maxAmp.temperature(100, 430)));
   // Check and print any faults
   uint8_t fault = maxAmp.readFault();
 

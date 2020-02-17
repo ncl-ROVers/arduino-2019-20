@@ -19,7 +19,7 @@ class IMU: public Input {
     Adafruit_BNO055 imu;
 
   public:
-    IMU(int inputPin, String incomingPartID);
+    IMU(int inputPin);
 
     int getValue();
 };

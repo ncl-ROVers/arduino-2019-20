@@ -19,7 +19,7 @@ class Thruster: public Output {
 
   public:
 
-    Thruster (int inputPin, String partID);
+    Thruster (int inputPin);
 
     int setValue(int inputValue);
 

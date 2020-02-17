@@ -15,7 +15,7 @@ class Temperature: public Input {
     Adafruit_MAX31865 maxAmp = Adafruit_MAX31865(10, 11, 12, 13);
 
   public:
-    Temperature(String incomingPartID);
+    Temperature();
 
     int getValue();
 };

@@ -1,7 +1,6 @@
 #include "armgripper.h"
 
-ArmGripper::ArmGripper(int inputPin, String partID, int limitPinLeft, int limitPinRight ) {
-  this->partID = partID;
+ArmGripper::ArmGripper(int inputPin, int limitPinLeft, int limitPinRight ) {
 
   // Set limit and starting values
   maxValue = 1900;

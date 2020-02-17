@@ -6,7 +6,6 @@ Output::Output() {
   currentValue=0;
   stoppedValue=0;
   pin=0;
-  partID="part ID not set";
 }
 
 int Output::setValue(int inputValue) {
@@ -30,10 +29,6 @@ int Output::getValue() {
 }
 
 void Output::constantTask(){
-}
-
-String Output::getID (){
-  return partID;
 }
 
 void Output::turnOff(){

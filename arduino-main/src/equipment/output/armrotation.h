@@ -20,7 +20,7 @@ class ArmRotation: public Output {
 
  public:
 
-    ArmRotation (int inputPin, String partID);
+    ArmRotation (int inputPin);
 
     int setValue(int inputValue);
 

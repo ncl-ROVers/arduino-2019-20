@@ -11,7 +11,6 @@ class Input {
 
   protected:
     int pin; // The physical pin this is associated with
-    String partID; // The JSON Part ID of this device
 
   public:
     Input();

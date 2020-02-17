@@ -40,6 +40,7 @@ void Communication::bufferError(int code){
 
 void Communication::sendStatus (int status){
   // immediately sends current status to pi
+  /*
   String resString;
   const int capacity = 100;
   StaticJsonBuffer<capacity> jb;
@@ -49,12 +50,14 @@ void Communication::sendStatus (int status){
   res[tempKey] = status;
   res.printTo(Serial);
   Serial.println();
+  */
 }
 
 void Communication::sendAll(){
   //      if(currentPosition == 0) {
   //        return;
   //      }
+  /*
   String resString;
   const int capacity = 1000; // Not sure about this size - probably needs calculating
   StaticJsonBuffer<capacity> jb;
@@ -67,6 +70,7 @@ void Communication::sendAll(){
   res.printTo(Serial);
   Serial.println();
   currentPosition = 0;
+  */
 }
 
 

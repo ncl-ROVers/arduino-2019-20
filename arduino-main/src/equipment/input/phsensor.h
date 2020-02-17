@@ -14,7 +14,7 @@ class PHSensor: public Input {
     int buf[10], temp; // Store 10 samples from the sensor for an accurate average
     unsigned long int avgValue;  //Store the average value of the sensor feedback
   public:
-    PHSensor(int inputPin, String incomingPartID);
+    PHSensor(int inputPin);
 
     int getValue();
 };

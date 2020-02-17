@@ -1,9 +1,8 @@
 #include "sonar.h"
 
-Sonar::Sonar(String incomingPartID){
+Sonar::Sonar(){
   initialised = false;
   sonStart = 500, sonLen = 30000;
-  partID = incomingPartID;
   Serial1.begin(115200); // sonar io
   if(!sonar.initialize())
   {
@@ -18,8 +17,8 @@ Sonar::Sonar(String incomingPartID){
 int Sonar::getValue() {
   if(initialised){
     if(sonar.update()){
-      communication.bufferValue(this->partID+"_Dist",String(sonar.distance()));
-      communication.bufferValue(this->partID+"_Conf",String(sonar.confidence()));
+      communication.bufferValue(String(sonar.distance()));
+      communication.bufferValue(String(sonar.confidence()));
     }
     else{
       // Throw error because this sensor could not update

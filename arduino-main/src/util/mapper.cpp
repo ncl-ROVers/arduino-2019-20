@@ -15,9 +15,9 @@ void Mapper::mapT(){
     delay(2000);
     tObjects[8] = new ArmRotation(10); // Rotation motor for the arm
     delay(2000);
-    tObjects[9] = new ArmGripper(11); // Gripper motor for the arm
+    tObjects[9] = new ArmGripper(11, 54, 55); // Gripper motor for the arm
     delay(2000);
-    tObjects[10] = new ArmGripper(12); // Fish box opening
+    tObjects[10] = new ArmGripper(12, 56, 57); // Fish box opening
 }
 
 void Mapper::mapI(){
@@ -52,22 +52,18 @@ Output* Mapper::getOutput(int pos){
     return new Output();
 }
 
-Input* Mapper::getInput(String jsonID){
+Input* Mapper::getInput(int pos){
     if(arduinoID==ARD + "I"){
-    for(int i = 0; i < I_COUNT; i++){
-        if(jsonID == iIDs[i]){
-        return iObjects[i];
-        }
-    }
+        return iObjects[pos];
     }
     else{
     // Send error message saying the Arduino was not found
-    String errorMessage = "getInput method doesn't have an option for "+arduinoID;
-    communication.sendStatus(-7);
-    return new Input();
+        String errorMessage = "getInput method doesn't have an option for "+arduinoID;
+        communication.sendStatus(-7);
+        return new Input();
     }
     // Send error message saying the device was not found
-    String errorMessage = "Input device ID is not valid: "+jsonID;
+    String errorMessage = "Input position is not valid: "+pos;
     communication.sendStatus(-9);
 }
 
