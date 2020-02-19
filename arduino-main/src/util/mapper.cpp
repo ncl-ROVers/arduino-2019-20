@@ -115,6 +115,19 @@ void Mapper::stopOutputs(){
     communication.sendStatus(1);
 }
 
+int Mapper::findArraySize(){
+    if(arduinoID == ARD + "T"){
+        return T_COUNT;
+    }
+    if(arduinoID == ARD + "M"){
+        return M_COUNT;
+    }
+    if(arduinoID == ARD + "I"){
+        return I_COUNT
+    }
+    return 0;
+}
+
 void Mapper::handleOutputCommands(JsonObject& root){
   for(const auto& current: root){
     // For each incoming value

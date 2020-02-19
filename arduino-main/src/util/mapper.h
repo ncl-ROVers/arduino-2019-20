@@ -89,6 +89,11 @@ class Mapper {
       Handle each control value from the incoming JSON message 
     */
     void handleOutputCommands(JsonObject& root);
+
+    /*
+      Find number of devices in array from which arduino is in use
+    */
+    int findArraySize();
 };
 
 #endif /* MAPPER_H */
