@@ -7,28 +7,28 @@ Temperature::Temperature(){
 }
 
 int Temperature::getValue() {
-  communication.bufferValue(String(maxAmp.temperature(100, 430)));
+  communication.bufferValue(maxAmp.temperature(100, 430));
   // Check and print any faults
   uint8_t fault = maxAmp.readFault();
 
   if (fault) {
     if (fault & MAX31865_FAULT_HIGHTHRESH) {
-      communication.sendStatus(-14);
+      communication.setStatus(-14);
     }
     if (fault & MAX31865_FAULT_LOWTHRESH) {
-      communication.sendStatus(-15);
+      communication.setStatus(-15);
     }
     if (fault & MAX31865_FAULT_REFINLOW) {
-      communication.sendStatus(-16);
+      communication.setStatus(-16);
     }
     if (fault & MAX31865_FAULT_REFINHIGH) {
-      communication.sendStatus(-17);
+      communication.setStatus(-17);
     }
     if (fault & MAX31865_FAULT_RTDINLOW) {
-      communication.sendStatus(-18);
+      communication.setStatus(-18);
     }
     if (fault & MAX31865_FAULT_OVUV) {
-      communication.sendStatus(-19);
+      communication.setStatus(-19);
     }
     maxAmp.clearFault();
   }

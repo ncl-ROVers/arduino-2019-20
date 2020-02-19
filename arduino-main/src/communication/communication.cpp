@@ -26,7 +26,7 @@ void Communication::incrementPosition(){
   currentPosition++;
 }
 
-void Communication::bufferValue(String incomingValue){
+void Communication::bufferValue(int incomingValue){
   // buffer a key value pair to be sent with next load
   value[currentPosition] = incomingValue;
   incrementPosition();
@@ -38,22 +38,23 @@ void Communication::bufferError(int code){
   incrementPosition();
 }
 
-void Communication::sendStatus (int status){
-  // immediately sends current status to pi
-  /*
-  String resString;
-  const int capacity = 100;
-  StaticJsonBuffer<capacity> jb;
-  JsonObject& res = jb.createObject();
-  res["deviceID"] = arduinoID; // add Arduino ID to every message
-  String tempKey = "status_" + String(char(EEPROM.read(0)));
-  res[tempKey] = status;
-  res.printTo(Serial);
-  Serial.println();
-  */
+void Communication::setStatus (int incomingStatus){
+  status = incomingStatus;
 }
 
 void Communication::sendAll(){
+  // First 2 chars are Arduino ID
+  // For debugging purposes this will be 01
+  String outgoingMessage = "01";
+
+  // 2nd set of bytes is status
+  outgoingMessage = outgoingMessage + formatInt(status, 4);
+
+  // TODO: For number of output messages, append 4 char values to the outgoing message then send
+
+
+
+// old code
   //      if(currentPosition == 0) {
   //        return;
   //      }
@@ -71,6 +72,12 @@ void Communication::sendAll(){
   Serial.println();
   currentPosition = 0;
   */
+}
+
+String Communication::formatInt(int integerToConvert, int numberOfChars){
+  int currentSize = String(integerToConvert).length();
+  // TODO: Make it so this int is formatted into the number of chars specified
+
 }
 
 

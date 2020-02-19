@@ -21,6 +21,7 @@ class Communication{
     int currentPosition; // value of next free space
     bool stringComplete = false;  // whether a full JSON string has been received
     String inputString = "";         // a String to hold incoming data
+    int status = 0;
 
   public:
     Communication();
@@ -53,7 +54,7 @@ class Communication{
     /*
       Buffer a key:value pair to be sent to the Pi
     */
-    void bufferValue(String incomingValue);
+    void bufferValue(int incomingValue);
 
     /*
       Buffer an error message to be sent to the PI
@@ -63,12 +64,16 @@ class Communication{
     /*
       Send the current status of this Arduino (e.g. booting)
     */
-    void sendStatus (int status);
+    void setStatus (int status);
 
     /*
       Send all buffered values to the Pi
     */
     void sendAll();
+
+    /*
+    */
+   String formatInt(int integerToConvert, int numberOfChars);
 };
 
 extern Communication communication; // Object to handle communication between Arduino and Pi
