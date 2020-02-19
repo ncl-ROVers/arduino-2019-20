@@ -128,12 +128,15 @@ int Mapper::findArraySize(){
     return 0;
 }
 
-void Mapper::handleOutputCommands(JsonObject& root){
-  for(const auto& current: root){
-    // For each incoming value
-    int setValue = mapper.getOutput(current.key)->setValue(current.value);
-    if(setValue == current.value) {
-      communication.sendStatus(0);
+void Mapper::handleOutputCommands(int message){
+    int numberOfDevices = findArraySize();
+    int messageLength = 2 + (4*(numberOfDevices + 1));
+    int crc = message && 15;
+    int id = message / (1000 * (numberOfDevices + 1));
+    int messageArray[numberOfDevices + 2];
+    messageArray[0] = id;
+    messageArray[numberOfDevices + 1] = crc;
+    for(int i = 1; i <= numberOfDevices; i++){
+        
     }
-  }
 }
