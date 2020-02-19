@@ -114,3 +114,13 @@ void Mapper::stopOutputs(){
     }
     communication.sendStatus(1);
 }
+
+void Mapper::handleOutputCommands(JsonObject& root){
+  for(const auto& current: root){
+    // For each incoming value
+    int setValue = mapper.getOutput(current.key)->setValue(current.value);
+    if(setValue == current.value) {
+      communication.sendStatus(0);
+    }
+  }
+}

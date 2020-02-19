@@ -85,6 +85,10 @@ class Mapper {
      */
     void stopOutputs();
 
+    /* 
+      Handle each control value from the incoming JSON message 
+    */
+    void handleOutputCommands(JsonObject& root);
 };
 
 #endif /* MAPPER_H */

@@ -73,9 +73,11 @@ void loop() {
   // parse the string when a newline arrives:
   if (communication.stringIsComplete()) {
     
+    //calculate 
+
     // Act on incoming message accordingly
     if(arduinoID== ARD + "T" || arduinoID == ARD + "M"){
-      handleOutputCommands(root);
+      mapper.handleOutputCommands(root);
     }
     else if (arduinoID == ARD + "I"){
       handleSensorCommands(root);
@@ -120,17 +122,6 @@ bool TimeSinceLastMessageExceeds(int timeInMs){
 /* Update time last valid message received */
 void updateMostRecentMessageTime(){
   lastMessage = millis();
-}
-
-/* Handle each control value from the incoming JSON message */
-void handleOutputCommands(JsonObject& root){
-  for(const auto& current: root){
-    // For each incoming value
-    int setValue = mapper.getOutput(current.key)->setValue(current.value);
-    if(setValue == current.value) {
-      communication.sendStatus(0);
-    }
-  }
 }
 
 /* Handle each control value from the incoming JSON message (Ard_I Only) */
