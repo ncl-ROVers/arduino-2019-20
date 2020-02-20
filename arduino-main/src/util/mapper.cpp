@@ -43,12 +43,12 @@ Output* Mapper::getOutput(int pos){
     else{
     // Send error message saying the Arduino was not found
     String errorMessage = "getOutput method doesn't have an option for "+arduinoID;
-    communication.sendStatus(-6);
+    communication.setStatus(-6);
     return new Output();
     }
     // Send error message saying the device was not found
     String errorMessage = "Output device position is not valid: "+pos;
-    communication.sendStatus(-8);
+    communication.setStatus(-8);
     return new Output();
 }
 
@@ -59,12 +59,12 @@ Input* Mapper::getInput(int pos){
     else{
     // Send error message saying the Arduino was not found
         String errorMessage = "getInput method doesn't have an option for "+arduinoID;
-        communication.sendStatus(-7);
+        communication.setStatus(-7);
         return new Input();
     }
     // Send error message saying the device was not found
     String errorMessage = "Input position is not valid: "+pos;
-    communication.sendStatus(-9);
+    communication.setStatus(-9);
 }
 
 int Mapper::getNumberOfInputs(){
@@ -91,7 +91,7 @@ void Mapper::sendAllSensors(){
     }
     }
     if(retcode == 0) {
-    communication.sendStatus(0);
+    communication.setStatus(0);
     }
     communication.sendAll();
 }
@@ -110,9 +110,9 @@ void Mapper::stopOutputs(){
     }
     else{
     // Send error message saying the Arduino was not found
-    communication.sendStatus(-10);
+    communication.setStatus(-10);
     }
-    communication.sendStatus(1);
+    communication.setStatus(1);
 }
 
 int Mapper::findArraySize(){

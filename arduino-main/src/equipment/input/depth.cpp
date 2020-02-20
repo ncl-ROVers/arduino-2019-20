@@ -7,7 +7,7 @@ Depth::Depth(int inputPin){
   if(!depthSensor.init())
   {
     // Send error message
-    communication.sendStatus(-4);
+    communication.setStatus(-4);
   }
   else{
     depthSensor.setModel(MS5837::MS5837_30BA);
@@ -19,15 +19,15 @@ Depth::Depth(int inputPin){
 int Depth::getValue() {
   if(initialised){
     depthSensor.read(); // Read current values
-    communication.bufferValue(String(depthSensor.pressure()));
-    communication.bufferValue(String(depthSensor.temperature()));
-    communication.bufferValue(String(depthSensor.depth()));
-    communication.bufferValue(String(depthSensor.altitude()));
+    communication.bufferValue(depthSensor.pressure());
+    communication.bufferValue(depthSensor.temperature());
+    communication.bufferValue(depthSensor.depth());
+    communication.bufferValue(depthSensor.altitude());
 
   }
   else{
     // Throw error because this sensor has not yet been initialised properly
-    communication.sendStatus(-5);
+    communication.setStatus(-5);
     return -1;
   }
   return 0;

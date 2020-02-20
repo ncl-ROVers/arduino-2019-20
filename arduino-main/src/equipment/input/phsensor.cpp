@@ -31,6 +31,6 @@ int PHSensor::getValue() {
   }
   float phValue=(float)avgValue*5.0/1024/6; //convert the analog into millivolt
   phValue=3.5*phValue;                      //convert the millivolt into pH value
-  communication.bufferValue(String(phValue)); // Send averaged sensor value
+  communication.bufferValue(phValue); // Send averaged sensor value
   return 0;
 }

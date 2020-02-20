@@ -7,7 +7,7 @@ Sonar::Sonar(){
   if(!sonar.initialize())
   {
     // Send error message because sensor not found
-    communication.sendStatus(-22);
+    communication.setStatus(-22);
   }
   else{
     initialised = true;
@@ -17,16 +17,16 @@ Sonar::Sonar(){
 int Sonar::getValue() {
   if(initialised){
     if(sonar.update()){
-      communication.bufferValue(String(sonar.distance()));
-      communication.bufferValue(String(sonar.confidence()));
+      communication.bufferValue(sonar.distance());
+      communication.bufferValue(sonar.confidence());
     }
     else{
       // Throw error because this sensor could not update
-      communication.sendStatus(-21);
+      communication.setStatus(-21);
       if(!sonar.initialize())
       {
         // Send error message because sensor not found
-        communication.sendStatus(-22);
+        communication.setStatus(-22);
       }
       else{
         initialised = true;
@@ -35,7 +35,7 @@ int Sonar::getValue() {
   }
   else{
     // Throw error because this sensor has not yet been initialised properly
-    communication.sendStatus(-20);
+    communication.setStatus(-20);
   }
   
 }
@@ -56,6 +56,6 @@ int Sonar::setParam(int index, int value){
   }
   else{
     // Throw error because not valid index
-    communication.sendStatus(-23);
+    communication.setStatus(-23);
   }
 }

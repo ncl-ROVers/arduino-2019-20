@@ -63,7 +63,7 @@ void setup() {
     mapper.mapM();
   }
   communication.sendAll();
-  communication.sendStatus(0);
+  communication.setStatus(0);
 }
 
 /* ============================================================ */
@@ -83,7 +83,7 @@ void loop() {
       handleSensorCommands(root);
     }
     else{
-      communication.sendStatus(-12);
+      communication.setStatus(-12);
     }
     prepareForNewMessage();
 
@@ -108,7 +108,7 @@ void loop() {
 void disableOutputsIfNoMessageReceived(int timeInMs){
   if(TimeSinceLastMessageExceeds(timeInMs) && !safetyActive){ // 1 second limit
     safetyActive = true; //activate safety
-    communication.sendStatus(-13);
+    communication.setStatus(-13);
     communication.sendAll();
     mapper.stopOutputs();
   }
@@ -138,7 +138,7 @@ void handleSensorCommands(JsonObject& root){
     }
 
     if(setValue == current.value) {
-      communication.sendStatus(0);
+      communication.setStatus(0);
     }
   }
 }
