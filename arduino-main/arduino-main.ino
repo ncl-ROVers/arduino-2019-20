@@ -14,7 +14,7 @@
 /* ======================Import libraries====================== */
 /* ============================================================ */
 #include <EEPROM.h> // Library for writing to Arduino's non volatile memory
-#include <ArduinoJson.h> // JSON encoding and decoding
+#include <Arduino_JSON.h> // JSON encoding and decoding
 
 
 // Custom ROV Libaries
