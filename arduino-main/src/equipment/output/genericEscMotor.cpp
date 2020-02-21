@@ -33,7 +33,7 @@ int EscMotor::setValue(int inputValue) {
   int value = Output::setValue(inputValue);
   // Actually control the device
   Serial.println("Write to motor END OF THE LINE PROBS");
-  EscMotor::motor.writeMicroseconds(pin, value);
+  EscMotor::motor.writeMicroseconds(0, 1900);
   // Return the set value
   Serial.println("ESC return");
   return value;
