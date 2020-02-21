@@ -74,10 +74,9 @@ void loop() {
   if (communication.stringIsComplete()) {
 
     // Set up JSON parser
-    StaticJsonBuffer<1000> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(communication.getInputString());
+    JSONVar root = JSON.parse(communication.getInputString());
     // Test if parsing succeeds.
-    if (!root.success()) {
+    if (JSON.typeof(myArray) == "undefined") {
       communication.sendStatus(-11);
       prepareForNewMessage();
       return;
@@ -134,7 +133,7 @@ void updateMostRecentMessageTime(){
 }
 
 /* Handle each control value from the incoming JSON message */
-void handleOutputCommands(JsonObject& root){
+void handleOutputCommands(JSONVar root){
   for(const auto& current: root){
     // For each incoming value
     int setValue = mapper.getOutput(current.key)->setValue(current.value);
@@ -145,7 +144,7 @@ void handleOutputCommands(JsonObject& root){
 }
 
 /* Handle each control value from the incoming JSON message (Ard_I Only) */
-void handleSensorCommands(JsonObject& root){
+void handleSensorCommands(JSONVar root){
   for(const auto& current: root){
     int setValue = current.value;
     
