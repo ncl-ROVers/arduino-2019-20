@@ -18,8 +18,6 @@ EscMotor::EscMotor (int inputPin, String partID) {
   stoppedValue = 1500;
   currentValue = stoppedValue;
 
-  Serial.print(partID);
-
   pin = inputPin; // Record the associated pin
   EscMotor::instantiateMotor();
   
