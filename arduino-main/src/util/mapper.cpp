@@ -34,11 +34,9 @@ void Mapper::mapM(){
 }
 
 Output* Mapper::getOutput(String jsonID){
-    Serial.println("getting output from mapper");
     if(arduinoID==ARD + "T"){
     for(int i = 0; i < T_COUNT; i++){
         if(jsonID == tIDs[i]){
-            Serial.println("returning t object");
             return tObjects[i];
         }
     }

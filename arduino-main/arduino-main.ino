@@ -65,17 +65,6 @@ void setup() {
   communication.sendAll();
   communication.sendStatus(0);
 
-  // DEBUG
-  Serial.println("BEFORE");
-  //mapper.getOutput("Thr_FP")->setValue(1500);
-  //EscMotor* testMotor = new EscMotor(0,"testMotor");
-  delay(1000);
-  Serial.println("Object created");
-  Serial.println("Setting value in array");
-  mapper.getOutput("Thr_FP")->setValue(1500);
-  Serial.println("Setting local");
-  //testMotor->setValue(1500);
-  Serial.println("AFTER");
 }
 
 /* ============================================================ */
@@ -128,13 +117,9 @@ void loop() {
 /* If no valid message has been received within a sensible amount of time, switch all devices off for safety */
 void disableOutputsIfNoMessageReceived(int timeInMs){
   if(TimeSinceLastMessageExceeds(timeInMs) && !safetyActive){ // 1 second limit
-    Serial.println("Turning everything off function");
     safetyActive = true; //activate safety
     communication.sendStatus(-13);
     communication.sendAll();
-    Serial.println("Turning everything off");
-    mapper.stopOutputs();
-    Serial.println("Turned everything off");
   }
 }
 

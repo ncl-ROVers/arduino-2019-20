@@ -28,19 +28,15 @@ EscMotor::EscMotor (int inputPin, String partID) {
 }
 
 int EscMotor::setValue(int inputValue) {
-  Serial.println("ESC Set");
   // call parent logic (keeps value within preset boundary)
   int value = Output::setValue(inputValue);
   // Actually control the device
-  Serial.println("Write to motor END OF THE LINE PROBS");
-  EscMotor::motor.writeMicroseconds(0, 1900);
+  EscMotor::motor.writeMicroseconds(pin, inputValue);
   // Return the set value
-  Serial.println("ESC return");
   return value;
 }
 
 void EscMotor::turnOff(){
-  //Serial.println("DEBUG: Turning off " + partID);
   // Switch off in case of emergency
   setValue(stoppedValue);
 }

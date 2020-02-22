@@ -35,8 +35,6 @@ bool ArmGripper::hitLeftLimit(){ // check if a limit switch was hit
 }
 
 bool ArmGripper::hitRightLimit(){ // check if a limit switch was hit
-  //Serial.println("Pin is");
-  //Serial.println(rightLimit);
   if(digitalRead(rightLimit)==LOW && currentValue>stoppedValue){ // Low = pressed
     communication.sendStatus(3);
     setValue(stoppedValue);
