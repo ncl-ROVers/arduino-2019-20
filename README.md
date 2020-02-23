@@ -6,8 +6,7 @@ Low-level software for ROV. Takes JSON key:value pairs from [Raspberry Pi](https
 
 To install this code on an Arduino you first need to run the appropriate setup script (in arduino-setup ) to assign an ID to the Arduino. This ID dictates the functionality as follows:
 
-* Ard_T: Control for Thrusters on main ROV body
-* Ard_M: Control for any Micro ROV devices
+* Ard_O: Control for Thrusters and other output devices on main ROV body
 * Ard_I: Sending sensor data back up to surface
 
 After running the setup script, flash arduino-main to the device.
