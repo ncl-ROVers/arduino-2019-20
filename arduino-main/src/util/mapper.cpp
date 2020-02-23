@@ -33,7 +33,7 @@ void Mapper::mapM(){
     mObjects[0] = new Thruster(3,mIDs[0]); // Micro ROV Thruster
 }
 
-Output* Mapper::getOutput(String jsonID){
+Output* Mapper::getOutputFromString(String jsonID){
     if(arduinoID==ARD + "T"){
     for(int i = 0; i < T_COUNT; i++){
         if(jsonID == tIDs[i]){
@@ -50,17 +50,49 @@ Output* Mapper::getOutput(String jsonID){
     }
     else{
     // Send error message saying the Arduino was not found
-    String errorMessage = "getOutput method doesn't have an option for "+arduinoID;
     communication.sendStatus(-6);
     return new Output();
     }
     // Send error message saying the device was not found
-    String errorMessage = "Output device ID is not valid: "+jsonID;
     communication.sendStatus(-8);
     return new Output();
 }
 
-Input* Mapper::getInput(String jsonID){
+Output* Mapper::getOutputFromIndex(int index){
+    if(arduinoID==ARD + "T"){
+        return tObjects[index];
+    }
+    else if(arduinoID=ARD + "M"){
+        return mObjects[index];
+    }
+    else{
+    // Send error message saying the Arduino was not found
+    communication.sendStatus(-6);
+    return new Output();
+    }
+    // Send error message saying the device was not found
+    communication.sendStatus(-8);
+    return new Output();
+}
+
+String Mapper::getOutputString(int index){
+    if(arduinoID==ARD + "T"){
+        return tIDs[index];
+    }
+    else if(arduinoID=ARD + "M"){
+        return mIDs[index];
+    }
+    else{
+    // Send error message saying the Arduino was not found
+    communication.sendStatus(-6);
+    return "";
+    }
+    // Send error message saying the device was not found
+    communication.sendStatus(-8);
+    return "";
+}
+
+Input* Mapper::getInputFromString(String jsonID){
     if(arduinoID==ARD + "I"){
     for(int i = 0; i < I_COUNT; i++){
         if(jsonID == iIDs[i]){
@@ -69,13 +101,24 @@ Input* Mapper::getInput(String jsonID){
     }
     }
     else{
-    // Send error message saying the Arduino was not found
-    String errorMessage = "getInput method doesn't have an option for "+arduinoID;
+    // Send error message saying the Arduino was not foun
     communication.sendStatus(-7);
     return new Input();
     }
     // Send error message saying the device was not found
-    String errorMessage = "Input device ID is not valid: "+jsonID;
+    communication.sendStatus(-9);
+}
+
+Input* Mapper::getInputFromIndex(int index){
+    if(arduinoID==ARD + "I"){
+        return iObjects[index];
+    }
+    else{
+        // Send error message saying the Arduino was not fou
+        communication.sendStatus(-7);
+        return new Input();
+    }
+    // Send error message saying the device was not found
     communication.sendStatus(-9);
 }
 
