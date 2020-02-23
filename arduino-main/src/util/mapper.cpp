@@ -6,111 +6,96 @@
     mIDs = {"Thr_M"};
 } */
 
-void Mapper::mapT(){
+void Mapper::mapO(){
     int numberOfThrusters = 8;
     for ( int i = 0; i < numberOfThrusters; i++) {
-        tObjects[i] = new Thruster(2+i, tIDs[i]); // The 8 movement Thrusters
+        oObjects[i] = new Thruster(i, oIDs[i]); // The 8 movement Thrusters
     }
     // Delays between each device so they initialise separately. This helps to give an auditory signal that everything is connected properly.
     delay(2000);
-    tObjects[8] = new ArmRotation(10, tIDs[8]); // Rotation motor for the arm
+    oObjects[8] = new ArmGripper(8, oIDs[8],54,55); // Gripper motor for the arm
     delay(2000);
-    tObjects[9] = new ArmGripper(11, tIDs[9],54,55); // Gripper motor for the arm
+    oObjects[9] = new Thruster(9, oIDs[9]); // The 8 movement Thrusters
     delay(2000);
-    tObjects[10] = new ArmGripper(12, tIDs[10],56,57); // Fish box opening
+    oObjects[10] = new ArmRotation(10, oIDs[10]); // Micro ROV return cord - TODO: Make new class for this
 }
 
 void Mapper::mapI(){
     // Map and initialise sensors
-    iObjects[0] = new IMU(0,iIDs[0]);
-    iObjects[1] = new Depth(0,iIDs[1]);
-    iObjects[2] = new PHSensor(56,iIDs[2]);
-    iObjects[3] = new Temperature(iIDs[3]);
-    iObjects[4] = new Sonar(iIDs[4]);
+    // Currently no sensors specified
 }
 
-void Mapper::mapM(){
-    mObjects[0] = new Thruster(3,mIDs[0]); // Micro ROV Thruster
+void Mapper::instantiateMap(){
+    if(thisIsArduino("o")){
+        mapO();
+    }
+    else if(thisIsArduino("i")){
+        mapI();
+    }
+    else{
+        communication.sendStatus(-12);
+    }
 }
 
 Output* Mapper::getOutputFromString(String jsonID){
-    if(arduinoID==ARD + "T"){
-    for(int i = 0; i < T_COUNT; i++){
-        if(jsonID == tIDs[i]){
-        return tObjects[i];
+    if(thisIsArduino("o")){
+        for(int i = 0; i < O_COUNT; i++){
+            if(jsonID == oIDs[i]){
+                return oObjects[i];
+            }
         }
-    }
-    }
-    else if(arduinoID==ARD + "M"){
-    for(int i = 0; i < M_COUNT; i++){
-        if(jsonID == mIDs[i]){
-        return mObjects[i];
-        }
-    }
+        // Send error message saying the device was not found
+        communication.sendStatus(-8);
+        return new Output();
     }
     else{
-    // Send error message saying the Arduino was not found
-    communication.sendStatus(-6);
-    return new Output();
+        // Send error message saying the Arduino was not found
+        communication.sendStatus(-6);
+        return new Output();
     }
-    // Send error message saying the device was not found
-    communication.sendStatus(-8);
-    return new Output();
 }
 
 Output* Mapper::getOutputFromIndex(int index){
-    if(arduinoID==ARD + "T"){
-        return tObjects[index];
-    }
-    else if(arduinoID=ARD + "M"){
-        return mObjects[index];
+    if(thisIsArduino("o")){
+        return oObjects[index];
     }
     else{
-    // Send error message saying the Arduino was not found
-    communication.sendStatus(-6);
-    return new Output();
+        // Send error message saying the Arduino was not found
+        communication.sendStatus(-6);
+        return new Output();
     }
-    // Send error message saying the device was not found
-    communication.sendStatus(-8);
-    return new Output();
 }
 
 String Mapper::getOutputString(int index){
-    if(arduinoID==ARD + "T"){
-        return tIDs[index];
-    }
-    else if(arduinoID=ARD + "M"){
-        return mIDs[index];
+    if(thisIsArduino("o")){
+        return oIDs[index];
     }
     else{
-    // Send error message saying the Arduino was not found
-    communication.sendStatus(-6);
-    return "";
+        // Send error message saying the Arduino was not found
+        communication.sendStatus(-6);
+        return "";
     }
-    // Send error message saying the device was not found
-    communication.sendStatus(-8);
-    return "";
 }
 
 Input* Mapper::getInputFromString(String jsonID){
-    if(arduinoID==ARD + "I"){
-    for(int i = 0; i < I_COUNT; i++){
-        if(jsonID == iIDs[i]){
-        return iObjects[i];
+    if(thisIsArduino("i")){
+        for(int i = 0; i < I_COUNT; i++){
+            if(jsonID == iIDs[i]){
+                return iObjects[i];
+            }
+            // Send error message saying the device was not found
+            communication.sendStatus(-9);
         }
     }
-    }
     else{
-    // Send error message saying the Arduino was not foun
-    communication.sendStatus(-7);
-    return new Input();
+        // Send error message saying the Arduino was not foun
+        communication.sendStatus(-7);
+        return new Input();
     }
-    // Send error message saying the device was not found
-    communication.sendStatus(-9);
 }
 
 Input* Mapper::getInputFromIndex(int index){
-    if(arduinoID==ARD + "I"){
+    if(thisIsArduino("i")){
         return iObjects[index];
     }
     else{
@@ -123,15 +108,15 @@ Input* Mapper::getInputFromIndex(int index){
 }
 
 int Mapper::getNumberOfInputs(){
-    return I_COUNT;
+    if(thisIsArduino("i")){
+        return I_COUNT;
+    }
+    return 0;
 }
 
 int Mapper::getNumberOfOutputs(){
-    if(arduinoID == ARD + "T"){
-    return T_COUNT;
-    }
-    else if(arduinoID == ARD + "M"){
-    return M_COUNT;
+    if(thisIsArduino("o")){
+        return O_COUNT;
     }
     return 0;
 }
@@ -139,33 +124,40 @@ int Mapper::getNumberOfOutputs(){
 void Mapper::sendAllSensors(){
     int retcode = 0;
     for(int i = 0; i < I_COUNT; i++){
-    if (retcode == 0) {
-    retcode = iObjects[i]->getValue();
-    } else {
-        iObjects[i]->getValue();
-    }
+        if (retcode == 0) {
+            retcode = iObjects[i]->getValue();
+        } else {
+            iObjects[i]->getValue();
+        }
     }
     if(retcode == 0) {
-    communication.sendStatus(0);
+        communication.sendStatus(0);
     }
     communication.sendAll();
 }
 
 void Mapper::stopOutputs(){
-    if(arduinoID == ARD + "T"){
-    for(int i = 0; i < T_COUNT; i++){
-        tObjects[i]->turnOff();
-        delay(125); // delay 125ms between each thruster to avoid sudden power halt
-    }
-    }
-    else if(arduinoID == ARD + "M"){
-    for(int i = 0; i < M_COUNT; i++){
-        mObjects[i]->turnOff();
-    }
+    if(thisIsArduino("o")){
+        for(int i = 0; i < O_COUNT; i++){
+            oObjects[i]->turnOff();
+            delay(125); // delay 125ms between each thruster to avoid sudden power halt
+        }
     }
     else{
-    // Send error message saying the Arduino was not found
-    communication.sendStatus(-10);
+        // Send error message saying the Arduino was not found
+        communication.sendStatus(-10);
     }
     communication.sendStatus(1);
+}
+
+bool Mapper::thisIsArduino(String arduinoIdToCheck){
+    return arduinoID == arduinoIdToCheck;    
+}
+
+bool Mapper::thisIsAnOutputArduino(){
+    return thisIsArduino("o");
+}
+
+bool Mapper::thisIsAnInputArduino(){
+    return thisIsArduino("i");
 }

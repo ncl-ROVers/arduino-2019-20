@@ -39,9 +39,9 @@ void Communication::bufferValue(String device, String incomingValue){
 
 void Communication::sendStatus (int status){
   //Hardcoded JSON
-  Serial.print("{\"deviceID\":\"");
+  Serial.print("{\""+deviceIdKey+"\":\"");
   Serial.print(arduinoID);
-  Serial.print("\",\"status_");
+  Serial.print("\",\""+statusKey);
   Serial.print(String(char(EEPROM.read(0))));
   Serial.print("\":\"");
   Serial.print(status);
@@ -49,7 +49,7 @@ void Communication::sendStatus (int status){
 }
 
 void Communication::sendAll(){
-  Serial.print("{\"deviceID\":\"");
+  Serial.print("{\""+deviceIdKey+"\":\"");
   Serial.print(arduinoID);
   Serial.print("\"");
   Serial.print(messageContents);
