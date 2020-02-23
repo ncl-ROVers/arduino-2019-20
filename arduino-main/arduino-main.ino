@@ -134,56 +134,35 @@ void updateMostRecentMessageTime(){
 
 /* Handle each control value from the incoming JSON message */
 void handleOutputCommands(JSONVar root){
-  cJSON *current_element = NULL;
-char *current_key = NULL;
-
-cJSON_ArrayForEach(current_element, object)
-{
-    current_key = current_element->string;
-    if (current_key != NULL)
-    {
-        /* do something with the key */
-    }
-}
-  for(int i = 0; i < root.length(); i++){
-    JSONVar current = root[i];
-    // For each incoming value
-    int setValue = mapper.getOutput(current.keys)->setValue(current.value);
-    if(setValue == current.value) {
-      communication.sendStatus(0);
+  for(int i = 0; i < mapper.getNumberOfOutputs(); i++){
+    if (root.hasOwnProperty(mapper.getOutputString(i))){
+      mapper.getOutputFromIndex(i)->setValue(root[mapper.getOutputString(i)]);
     }
   }
+  
+
 }
 
 /* Handle each control value from the incoming JSON message (Ard_I Only) */
 void handleSensorCommands(JSONVar root){
-  cJSON *current_element = NULL;
-  char *current_key = NULL;
-
-  cJSON_ArrayForEach(current_element, object)
-  {
-    current_key = current_element->string;
-    if (current_key != NULL)
-    {
-        /* do something with the key */
-    }
-  }
+  /*
   for(int i = 0; i < root.length(); i++){
     JSONVar current = root[i];
-    int setValue = current.value;
+    int setValue = mapper.getInputFromIndex(i)->setValue(current.value);
     
     // Sonar has custom range settings.
     if(current.keys == "Sen_Sonar_Start"){
-      setValue = mapper.getInput("Sen_Sonar")->setParam(1,current.value);
+      setValue = mapper.getInputFromString("Sen_Sonar")->setParam(1,current.value);
     }
     else if(current.keys == "Sen_Sonar_Len"){
-      setValue = mapper.getInput("Sen_Sonar")->setParam(2,current.value);
+      setValue = mapper.getInputFromString("Sen_Sonar")->setParam(2,current.value);
     }
 
     if(setValue == current.value) {
       communication.sendStatus(0);
     }
   }
+  */
 }
 
 /* Send response, clear the input buffer and wait for new incoming message */
