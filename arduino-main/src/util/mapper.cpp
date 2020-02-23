@@ -22,8 +22,7 @@ void Mapper::mapO(){
 
 void Mapper::mapI(){
     // Map and initialise sensors
-    iObjects[0] = new IMU(0, iIDs[0]);
-    iObjects[1] = new Depth(0, iIDs[1]);
+    // Currently no sensors specified
 }
 
 void Mapper::instantiateMap(){

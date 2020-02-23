@@ -1,5 +1,5 @@
 #define O_COUNT 11 // Number of devices attached to Arduino O
-#define I_COUNT 2 // Number of devices attached to Arduino I
+#define I_COUNT02 // Number of devices attached to Arduino I
 
 #ifndef MAPPER_H
 #define MAPPER_H
@@ -31,7 +31,7 @@ class Mapper {
 
     // i for Ard_I (Input)
     Input* iObjects[I_COUNT];
-    String iIDs[I_COUNT] = {"simu", "sdep"};
+    String iIDs[I_COUNT] = {};
 
     /*
       Assign JSON IDs to devices on this Arduino

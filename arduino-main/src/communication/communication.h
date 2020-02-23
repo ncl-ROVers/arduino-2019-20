@@ -58,11 +58,6 @@ class Communication{
     void bufferValue(String device, String incomingValue);
 
     /*
-      Buffer an error message to be sent to the PI
-    */
-    void bufferError(int code);
-
-    /*
       Send the current status of this Arduino (e.g. booting)
     */
     void sendStatus (int status);
