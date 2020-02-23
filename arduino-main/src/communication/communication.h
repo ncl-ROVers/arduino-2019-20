@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <EEPROM.h>
-#include <ArduinoJson.h>
+#include <Arduino_JSON.h>
 #include "../util/constants.h"
 
 #define ELEMENTCOUNT 20
@@ -23,6 +23,7 @@ class Communication{
     String inputString = "";         // a String to hold incoming data
     String statusKey = "s";
     String deviceIdKey = "id";
+    String messageContents = "";
 
   public:
     Communication();

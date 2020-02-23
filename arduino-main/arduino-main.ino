@@ -14,7 +14,7 @@
 /* ======================Import libraries====================== */
 /* ============================================================ */
 #include <EEPROM.h> // Library for writing to Arduino's non volatile memory
-#include <ArduinoJson.h> // JSON encoding and decoding
+#include <Arduino_JSON.h> // JSON encoding and decoding
 
 
 // Custom ROV Libaries
@@ -65,10 +65,9 @@ void loop() {
   if (communication.stringIsComplete()) {
 
     // Set up JSON parser
-    StaticJsonBuffer<1000> jsonBuffer;
-    JsonObject& root = jsonBuffer.parseObject(communication.getInputString());
+    JSONVar root = JSON.parse(communication.getInputString());
     // Test if parsing succeeds.
-    if (!root.success()) {
+    if (JSON.typeof(root) == "undefined") {
       communication.sendStatus(-11);
       prepareForNewMessage();
       return;
@@ -125,33 +124,36 @@ void updateMostRecentMessageTime(){
 }
 
 /* Handle each control value from the incoming JSON message */
-void handleOutputCommands(JsonObject& root){
-  for(const auto& current: root){
-    // For each incoming value
-    int setValue = mapper.getOutput(current.key)->setValue(current.value);
-    if(setValue == current.value) {
-      communication.sendStatus(0);
+void handleOutputCommands(JSONVar root){
+  for(int i = 0; i < mapper.getNumberOfOutputs(); i++){
+    if (root.hasOwnProperty(mapper.getOutputString(i))){
+      mapper.getOutputFromIndex(i)->setValue(root[mapper.getOutputString(i)]);
     }
   }
+  
+
 }
 
 /* Handle each control value from the incoming JSON message (Ard_I Only) */
-void handleSensorCommands(JsonObject& root){
-  for(const auto& current: root){
-    int setValue = current.value;
+void handleSensorCommands(JSONVar root){
+  /*
+  for(int i = 0; i < root.length(); i++){
+    JSONVar current = root[i];
+    int setValue = mapper.getInputFromIndex(i)->setValue(current.value);
     
     // Sonar has custom range settings.
-    if(current.key == "Sen_Sonar_Start"){
-      setValue = mapper.getInput("Sen_Sonar")->setParam(1,current.value);
+    if(current.keys == "Sen_Sonar_Start"){
+      setValue = mapper.getInputFromString("Sen_Sonar")->setParam(1,current.value);
     }
-    else if(current.key == "Sen_Sonar_Len"){
-      setValue = mapper.getInput("Sen_Sonar")->setParam(2,current.value);
+    else if(current.keys == "Sen_Sonar_Len"){
+      setValue = mapper.getInputFromString("Sen_Sonar")->setParam(2,current.value);
     }
 
     if(setValue == current.value) {
       communication.sendStatus(0);
     }
   }
+  */
 }
 
 /* Send response, clear the input buffer and wait for new incoming message */

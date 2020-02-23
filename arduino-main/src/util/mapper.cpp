@@ -37,11 +37,11 @@ void Mapper::instantiateMap(){
     }
 }
 
-Output* Mapper::getOutput(String jsonID){
+Output* Mapper::getOutputFromString(String jsonID){
     if(thisIsArduino("o")){
         for(int i = 0; i < O_COUNT; i++){
             if(jsonID == oIDs[i]){
-            return oObjects[i];
+                return oObjects[i];
             }
         }
         // Send error message saying the device was not found
@@ -50,31 +50,61 @@ Output* Mapper::getOutput(String jsonID){
     }
     else{
         // Send error message saying the Arduino was not found
-        String errorMessage = "getOutput method doesn't have an option for "+arduinoID;
         communication.sendStatus(-6);
         return new Output();
     }
-    
 }
 
-Input* Mapper::getInput(String jsonID){
-    if(thisIsArduino("i")){
-        for(int i = 0; i < I_COUNT; i++){
-            if(jsonID == iIDs[i]){
+Output* Mapper::getOutputFromIndex(int index){
+    if(thisIsArduino("o")){
+        return oObjects[index];
+    }
+    else{
+        // Send error message saying the Arduino was not found
+        communication.sendStatus(-6);
+        return new Output();
+    }
+}
+
+String Mapper::getOutputString(int index){
+    if(thisIsArduino("o")){
+        return oIDs[index];
+    }
+    else{
+        // Send error message saying the Arduino was not found
+        communication.sendStatus(-6);
+        return "";
+    }
+}
+
+Input* Mapper::getInputFromString(String jsonID){
+    if(thisIsArduino("i"){
+    for(int i = 0; i < I_COUNT; i++){
+        if(jsonID == iIDs[i]){
             return iObjects[i];
-            }
         }
         // Send error message saying the device was not found
         String errorMessage = "Input device ID is not valid: "+jsonID;
         communication.sendStatus(-9);
     }
     else{
-        // Send error message saying the Arduino was not found
-        String errorMessage = "getInput method doesn't have an option for "+arduinoID;
+        // Send error message saying the Arduino was not foun
         communication.sendStatus(-7);
         return new Input();
     }
-    
+}
+
+Input* Mapper::getInputFromIndex(int index){
+    if(thisIsArduino("i")){
+        return iObjects[index];
+    }
+    else{
+        // Send error message saying the Arduino was not fou
+        communication.sendStatus(-7);
+        return new Input();
+    }
+    // Send error message saying the device was not found
+    communication.sendStatus(-9);
 }
 
 int Mapper::getNumberOfInputs(){
