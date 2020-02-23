@@ -37,22 +37,14 @@ void Communication::bufferValue(String device, String incomingValue){
   incrementPosition();
 }
 
-void Communication::bufferError(int code){
-  // buffer an error message to be sent with next load
-  String tempKey = "status_" + String(char(EEPROM.read(0)));
-  key[currentPosition] = tempKey;
-  value[currentPosition] = code;
-  incrementPosition();
-}
-
 void Communication::sendStatus (int status){
   // immediately sends current status to pi
   String resString;
   const int capacity = 100;
   StaticJsonBuffer<capacity> jb;
   JsonObject& res = jb.createObject();
-  res["deviceID"] = arduinoID; // add Arduino ID to every message
-  String tempKey = "status_" + String(char(EEPROM.read(0)));
+  res[deviceIdKey] = arduinoID; // add Arduino ID to every message
+  String tempKey = statusKey + String(char(EEPROM.read(0)));
   res[tempKey] = status;
   res.printTo(Serial);
   Serial.println();
@@ -66,7 +58,7 @@ void Communication::sendAll(){
   const int capacity = 1000; // Not sure about this size - probably needs calculating
   StaticJsonBuffer<capacity> jb;
   JsonObject& res = jb.createObject();
-  res["deviceID"] = arduinoID; // add Arduino ID to every message
+  res[deviceIdKey] = arduinoID; // add Arduino ID to every message
   for(int i = 0; i < currentPosition; i++){
     // prepare all buffered values
     res[key[i]] = value[i];

@@ -27,10 +27,10 @@ void Mapper::mapI(){
 }
 
 void Mapper::instantiateMap(){
-    if(thisIsArduino("O")){
+    if(thisIsArduino("o")){
         mapO();
     }
-    else if(thisIsArduino("I")){
+    else if(thisIsArduino("i")){
         mapI();
     }
     else{
@@ -39,7 +39,7 @@ void Mapper::instantiateMap(){
 }
 
 Output* Mapper::getOutput(String jsonID){
-    if(thisIsArduino("O")){
+    if(thisIsArduino("o")){
         for(int i = 0; i < O_COUNT; i++){
             if(jsonID == oIDs[i]){
             return oObjects[i];
@@ -59,7 +59,7 @@ Output* Mapper::getOutput(String jsonID){
 }
 
 Input* Mapper::getInput(String jsonID){
-    if(thisIsArduino("I")){
+    if(thisIsArduino("i")){
         for(int i = 0; i < I_COUNT; i++){
             if(jsonID == iIDs[i]){
             return iObjects[i];
@@ -79,14 +79,14 @@ Input* Mapper::getInput(String jsonID){
 }
 
 int Mapper::getNumberOfInputs(){
-    if(thisIsArduino("I")){
+    if(thisIsArduino("i")){
         return I_COUNT;
     }
     return 0;
 }
 
 int Mapper::getNumberOfOutputs(){
-    if(thisIsArduino("O")){
+    if(thisIsArduino("o")){
         return O_COUNT;
     }
     return 0;
@@ -108,7 +108,7 @@ void Mapper::sendAllSensors(){
 }
 
 void Mapper::stopOutputs(){
-    if(thisIsArduino("O")){
+    if(thisIsArduino("o")){
         for(int i = 0; i < O_COUNT; i++){
             oObjects[i]->turnOff();
             delay(125); // delay 125ms between each thruster to avoid sudden power halt
@@ -122,13 +122,13 @@ void Mapper::stopOutputs(){
 }
 
 bool Mapper::thisIsArduino(String arduinoIdToCheck){
-    return arduinoID == ARD + arduinoIdToCheck;    
+    return arduinoID == arduinoIdToCheck;    
 }
 
 bool Mapper::thisIsAnOutputArduino(){
-    return thisIsArduino("O");
+    return thisIsArduino("o");
 }
 
 bool Mapper::thisIsAnInputArduino(){
-    return thisIsArduino("I");
+    return thisIsArduino("i");
 }

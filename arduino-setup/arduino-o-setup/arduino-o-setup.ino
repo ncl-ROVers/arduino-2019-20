@@ -7,12 +7,12 @@ void setup() {
   // turn the LED off before success
   digitalWrite(13, LOW);
   // Mark this as Arduino O for Output
-  EEPROM.write(0, 'O'); 
+  EEPROM.write(0, 'o'); 
   // turn the LED on when we're done
   digitalWrite(13, HIGH);
 
   Serial.begin(9600);
-  Serial.print("ID is Ard_");
+  Serial.print("ID is ");
   Serial.println(String(char(EEPROM.read(0))));
 }
 
