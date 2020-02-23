@@ -50,7 +50,7 @@ Thrusters are given an ID which describes their position on the ROV. Motors are 
 | 10  | mc      | Micro ROV return cord                       |
 
 
-### Arduino ID
+### Arduino I
 
 This Arduino is for reading all the sensors on the ROV.
 
