@@ -78,14 +78,14 @@ String Mapper::getOutputString(int index){
 }
 
 Input* Mapper::getInputFromString(String jsonID){
-    if(thisIsArduino("i"){
-    for(int i = 0; i < I_COUNT; i++){
-        if(jsonID == iIDs[i]){
-            return iObjects[i];
+    if(thisIsArduino("i")){
+        for(int i = 0; i < I_COUNT; i++){
+            if(jsonID == iIDs[i]){
+                return iObjects[i];
+            }
+            // Send error message saying the device was not found
+            communication.sendStatus(-9);
         }
-        // Send error message saying the device was not found
-        String errorMessage = "Input device ID is not valid: "+jsonID;
-        communication.sendStatus(-9);
     }
     else{
         // Send error message saying the Arduino was not foun
