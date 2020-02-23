@@ -6,8 +6,8 @@ void setup() {
   pinMode(13, OUTPUT);
   // turn the LED off before success
   digitalWrite(13, LOW);
-  // Mark this as Arduino M for Micro ROV
-  EEPROM.write(0, 'M'); 
+  // Mark this as Arduino O for Output
+  EEPROM.write(0, 'O'); 
   // turn the LED on when we're done
   digitalWrite(13, HIGH);
 

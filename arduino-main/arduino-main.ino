@@ -50,18 +50,9 @@ void setup() {
   Serial.begin(115200);
   communication.sendStatus(4);
   
-
-
   // Map inputs and outputs based on which Arduino this is
-  if (arduinoID == ARD + "T") {
-    mapper.mapT();
-  }
-  else if (arduinoID == ARD + "I"){
-    mapper.mapI();
-  }
-  else if (arduinoID == ARD + "M"){
-    mapper.mapM();
-  }
+  mapper.instantiateMap();
+
   communication.sendAll();
   communication.sendStatus(0);
 }
@@ -85,10 +76,10 @@ void loop() {
     safetyActive = false; // Switch off auto-off because valid message received
 
     // Act on incoming message accordingly
-    if(arduinoID== ARD + "T" || arduinoID == ARD + "M"){
+    if(mapper.thisIsAnOutputArduino()){
       handleOutputCommands(root);
     }
-    else if (arduinoID == ARD + "I"){
+    else if (mapper.thisIsAnInputArduino()){
       handleSensorCommands(root);
     }
     else{
@@ -102,11 +93,11 @@ void loop() {
 
   // Code to run all the time goes here:
 
-  if(arduinoID == ARD + "T" || arduinoID == ARD + "M"){
+  if(mapper.thisIsAnOutputArduino()){
     // This Arduino is for outputting
     disableOutputsIfNoMessageReceived(safetyShutoffTimeMs);
   }
-  else if(arduinoID == ARD + "I"){
+  else if(mapper.thisIsAnInputArduino()){
     // Output all sensor data
       mapper.sendAllSensors();
   }
