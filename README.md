@@ -55,17 +55,8 @@ This Arduino is for reading all the sensors on the ROV.
 
 | JSON ID        | Description                            |
 |----------------|----------------------------------------|
-| simux          | X Orientation                          |
-| simuy          | Y Orientation                          |
-| simuz          | Z Orientation                          |
-| simut          | Internal ROV temperature               |
-| simuax         | Linear acceleration X                  |
-| simuay         | Linear acceleration Y                  |
-| simuaz         | Linear acceleration Z                  |
-| sdepp          | External water pressure                |
-| sdept          | External temperature                   |
-| sdepd          | Depth                                  |
-| sdepa          | Altitude                               |
+
+(None specified)
 
 
 
