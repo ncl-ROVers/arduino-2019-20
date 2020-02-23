@@ -25,7 +25,7 @@
 */
 class Mapper {
   private:
-    // t for Ard_O (Thrusters)
+    // t for Ard_O (Output)
     Output* oObjects[O_COUNT];  // Devices attached to Arduino T
     String oIDs[O_COUNT] = {"thfp", "thfs", "thap", "thas", "tvfp", "tvfs", "tvap", "tvas", "mg", "tm", "mc"};
 
