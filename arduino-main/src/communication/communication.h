@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include <EEPROM.h>
-#include <ArduinoJson.h>
+#include <Arduino_JSON.h>
 #include "../util/constants.h"
 
 #define ELEMENTCOUNT 20
@@ -21,6 +21,9 @@ class Communication{
     int currentPosition; // value of next free space
     bool stringComplete = false;  // whether a full JSON string has been received
     String inputString = "";         // a String to hold incoming data
+    String statusKey = "s";
+    String deviceIdKey = "id";
+    String messageContents = "";
 
   public:
     Communication();
@@ -54,11 +57,6 @@ class Communication{
       Buffer a key:value pair to be sent to the Pi
     */
     void bufferValue(String device, String incomingValue);
-
-    /*
-      Buffer an error message to be sent to the PI
-    */
-    void bufferError(int code);
 
     /*
       Send the current status of this Arduino (e.g. booting)

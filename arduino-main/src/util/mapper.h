@@ -1,6 +1,5 @@
-#define T_COUNT 11 // Number of devices attached to Arduino T
-#define I_COUNT 5 // Number of devices attached to Arduino I
-#define M_COUNT 1 // Number of devices attached to Arduino M
+#define O_COUNT 11 // Number of devices attached to Arduino O
+#define I_COUNT 2 // Number of devices attached to Arduino I
 
 #ifndef MAPPER_H
 #define MAPPER_H
@@ -12,7 +11,6 @@
 #include "../equipment/input/phsensor.h"
 #include "../equipment/input/sonar.h"
 #include "../equipment/input/temperature.h"
-//#include "../equipment/output/output-devices.h"
 #include "../equipment/output/output.h"
 #include "../equipment/output/thruster.h"
 #include "../equipment/output/armgripper.h"
@@ -27,45 +25,57 @@
 */
 class Mapper {
   private:
-    // t for Ard_T (Thrusters)
-    Output* tObjects[T_COUNT];  // Devices attached to Arduino T
-    String tIDs[T_COUNT] = {"Thr_FP", "Thr_FS", "Thr_AP", "Thr_AS", "Thr_TFP", "Thr_TFS", "Thr_TAP", "Thr_TAS", "Mot_R", "Mot_G", "Mot_F"};
+    // t for Ard_O (Output)
+    Output* oObjects[O_COUNT];  // Devices attached to Arduino T
+    String oIDs[O_COUNT] = {"thfp", "thfs", "thap", "thas", "tvfp", "tvfs", "tvap", "tvas", "mg", "tm", "mc"};
 
     // i for Ard_I (Input)
     Input* iObjects[I_COUNT];
-    String iIDs[I_COUNT] = {"Sen_IMU", "Sen_Dep", "Sen_PH", "Sen_Temp", "Sen_Sonar"};
-
-    // m for Ard_M (Micro ROV)
-    Output* mObjects[M_COUNT]; // Devices attached to Arduino M
-    String mIDs[M_COUNT] = {"Thr_M"};
-
-  public:
-    //Mapper();
+    String iIDs[I_COUNT] = {};
 
     /*
       Assign JSON IDs to devices on this Arduino
     */
-    void mapT();
+    void mapO();
 
     /*
       Assign JSON IDs to sensors on this Arduino
     */
     void mapI();
 
+  public:
+
     /*
       Assign JSON IDs to devices on this Arduino
     */
-    void mapM();
+    void instantiateMap();
 
     /*
       Get the object representing an output device connected to this Arduino with the specified JSON ID
      */
-    Output* getOutput(String jsonID);
+    Output* getOutputFromString(String jsonID);
+
+    /*
+      Get the object representing an output device connected to this Arduino with the index of its position within the output array
+    */
+    Output* getOutputFromIndex(int index);
+
+    /*
+      Get the string associated with the output from a given index
+      */
+    String getOutputString(int index);
 
     /*
       Get the object representing a senor connected to this Arduino with the specified JSON ID
      */
-    Input* getInput(String jsonID);
+    Input* getInputFromString(String jsonID);
+
+    /*
+      Get the object representing a sensor connected to this Arduino with the index of its position within the input array
+    */
+    Input* getInputFromIndex(int index);
+
+
 
     /*
       Get the number of sensors
@@ -87,6 +97,21 @@ class Mapper {
       This is primarily a safety feature to be used if no control signals are being received.
      */
     void stopOutputs();
+
+    /*
+      Returns whether this is an output-only Arduino
+    */
+    bool thisIsAnOutputArduino();
+
+    /*
+      Returns whether this is an input-only Arduino
+    */
+    bool thisIsAnInputArduino();
+
+    /*
+      Returns whether this is a specified Arduino
+    */
+    bool thisIsArduino(String arduinoIdToCheck);
 
 };
 
