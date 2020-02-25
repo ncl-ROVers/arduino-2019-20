@@ -13,11 +13,11 @@ void Mapper::mapT(){
     }
     // Delays between each device so they initialise separately. This helps to give an auditory signal that everything is connected properly.
     delay(2000);
-    tObjects[8] = new ArmRotation(8, tIDs[8]); // Rotation motor for the arm
+    tObjects[8] = new ArmRotation(10, tIDs[8]); // Rotation motor for the arm
     delay(2000);
-    tObjects[9] = new ArmGripper(9, tIDs[9],54,55); // Gripper motor for the arm
+    tObjects[9] = new ArmGripper(11, tIDs[9],54,55); // Gripper motor for the arm
     delay(2000);
-    tObjects[10] = new ArmGripper(10, tIDs[10],56,57); // Fish box opening
+    tObjects[10] = new ArmGripper(12, tIDs[10],56,57); // Fish box opening
 }
 
 void Mapper::mapI(){

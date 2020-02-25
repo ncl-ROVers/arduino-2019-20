@@ -48,7 +48,6 @@ void setup() {
 
   // initialize serial:
   Serial.begin(115200);
-  Serial.println("test");
   communication.sendStatus(4);
   
 
