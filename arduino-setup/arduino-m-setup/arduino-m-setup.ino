@@ -6,13 +6,13 @@ void setup() {
   pinMode(13, OUTPUT);
   // turn the LED off before success
   digitalWrite(13, LOW);
-  // Mark this as Arduino O for Output
-  EEPROM.write(0, 'o'); 
+  // Mark this as Arduino M for Micro ROV
+  EEPROM.write(0, 'M'); 
   // turn the LED on when we're done
   digitalWrite(13, HIGH);
 
   Serial.begin(9600);
-  Serial.print("ID is ");
+  Serial.print("ID is Ard_");
   Serial.println(String(char(EEPROM.read(0))));
 }
 

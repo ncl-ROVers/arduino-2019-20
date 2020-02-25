@@ -6,8 +6,8 @@ void setup() {
   pinMode(13, OUTPUT);
   // turn the LED off before success
   digitalWrite(13, LOW);
-  // Mark this as Arduino I for Input
-  EEPROM.write(0, 'I'); 
+  // Mark this as Arduino T for Thrusters
+  EEPROM.write(0, 'T'); 
   // turn the LED on when we're done
   digitalWrite(13, HIGH);
 
