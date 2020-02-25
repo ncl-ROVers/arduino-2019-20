@@ -29,7 +29,11 @@ int EscMotor::setValue(int inputValue) {
   // call parent logic (keeps value within preset boundary)
   int value = Output::setValue(inputValue);
   // Actually control the device
+  Serial.println("Before write");
   EscMotor::motor.writeMicroseconds(pin, inputValue);
+  Serial.println(pin);
+  //EscMotor::motor.setPWM(pin, 0, SERVOMAX);
+  Serial.println("After write");
   // Return the set value
   return value;
 }
@@ -42,7 +46,9 @@ void EscMotor::turnOff(){
 bool EscMotor::motorInstantiated = false;
 
 void EscMotor::instantiateMotor(){
+  Serial.println("Called instantiate");
   if(!EscMotor::motorInstantiated){
+    Serial.println("within if");
     EscMotor::motor = Adafruit_PWMServoDriver(); // Call Adafruit constructor
     EscMotor::motor.begin();
     // In theory the internal oscillator is 25MHz but it really isn't
@@ -51,5 +57,6 @@ void EscMotor::instantiateMotor(){
     EscMotor::motor.setOscillatorFrequency(27000000);  // The int.osc. is closer to 27MHz  
     EscMotor::motor.setPWMFreq(SERVO_FREQ);  // Analog servos run at ~50 Hz updates
     EscMotor::motorInstantiated = true;
+    Serial.println("end if");
   }
 }
