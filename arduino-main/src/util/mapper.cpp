@@ -1,11 +1,5 @@
 #include "mapper.h"
 
-/* Mapper::Mapper(){
-    tIDs = {"Thr_FP", "Thr_FS", "Thr_AP", "Thr_AS", "Thr_TFP", "Thr_TFS", "Thr_TAP", "Thr_TAS", "Mot_R", "Mot_G", "Mot_F"};
-    iIDs = {"Sen_IMU", "Sen_Dep", "Sen_PH", "Sen_Temp", "Sen_Sonar"};
-    mIDs = {"Thr_M"};
-} */
-
 void Mapper::mapO(){
     int numberOfThrusters = 8;
     for ( int i = 0; i < numberOfThrusters; i++) {

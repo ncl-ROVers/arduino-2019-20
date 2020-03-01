@@ -7,7 +7,7 @@ void setup() {
   // turn the LED off before success
   digitalWrite(13, LOW);
   // Mark this as Arduino I for Input
-  EEPROM.write(0, 'i'); 
+  EEPROM.write(0, 'I'); 
   // turn the LED on when we're done
   digitalWrite(13, HIGH);
 
