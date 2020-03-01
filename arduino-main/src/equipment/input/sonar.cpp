@@ -18,8 +18,8 @@ Sonar::Sonar(String incomingPartID){
 int Sonar::getValue() {
   if(initialised){
     if(sonar.update()){
-      communication.bufferValue(this->partID+"_Dist",String(sonar.distance()));
-      communication.bufferValue(this->partID+"_Conf",String(sonar.confidence()));
+      communication.bufferValue(this->partID+"_D",String(sonar.distance()));
+      communication.bufferValue(this->partID+"_C",String(sonar.confidence()));
     }
     else{
       // Throw error because this sensor could not update

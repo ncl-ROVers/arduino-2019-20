@@ -20,10 +20,10 @@ Depth::Depth(int inputPin, String incomingPartID){
 int Depth::getValue() {
   if(initialised){
     depthSensor.read(); // Read current values
-    communication.bufferValue(this->partID+"p",String(depthSensor.pressure()));
-    communication.bufferValue(this->partID+"t",String(depthSensor.temperature()));
-    communication.bufferValue(this->partID+"d",String(depthSensor.depth()));
-    communication.bufferValue(this->partID+"a",String(depthSensor.altitude()));
+    communication.bufferValue(this->partID+"_P",String(depthSensor.pressure()));
+    communication.bufferValue(this->partID+"_T",String(depthSensor.temperature()));
+    communication.bufferValue(this->partID+"_D",String(depthSensor.depth()));
+    communication.bufferValue(this->partID+"_A",String(depthSensor.altitude()));
 
   }
   else{
