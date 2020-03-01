@@ -48,13 +48,12 @@ void setup() {
 
   // initialize serial:
   Serial.begin(115200);
-  communication.sendStatus(4);
+  communication.sendOnlyStatus(4);
   
   // Map inputs and outputs based on which Arduino this is
   mapper.instantiateMap();
 
-  communication.sendAll();
-  communication.sendStatus(0);
+  communication.sendOnlyStatus(0);
 }
 
 /* ============================================================ */
@@ -68,10 +67,15 @@ void loop() {
     JSONVar root = JSON.parse(communication.getInputString());
     // Test if parsing succeeds.
     if (JSON.typeof(root) == "undefined") {
-      communication.sendStatus(-11);
+      communication.sendOnlyStatus(-11);
       prepareForNewMessage();
       return;
     }
+    else
+    {
+      communication.setStatus(0); // Message received so code running normally
+    }
+    
     safetyActive = false; // Switch off auto-off because valid message received
 
     // Act on incoming message accordingly
@@ -82,7 +86,7 @@ void loop() {
       handleSensorCommands(root);
     }
     else{
-      communication.sendStatus(-12);
+      communication.sendOnlyStatus(-12);
     }
     prepareForNewMessage();
 
@@ -107,8 +111,7 @@ void loop() {
 void disableOutputsIfNoMessageReceived(int timeInMs){
   if(TimeSinceLastMessageExceeds(timeInMs) && !safetyActive){ // 1 second limit
     safetyActive = true; //activate safety
-    communication.sendStatus(-13);
-    communication.sendAll();
+    communication.sendOnlyStatus(-13);
     mapper.stopOutputs();
   }
 }
@@ -150,7 +153,7 @@ void handleSensorCommands(JSONVar root){
     }
 
     if(setValue == current.value) {
-      communication.sendStatus(0);
+      communication.sendOnlyStatus(0);
     }
   }
   */
