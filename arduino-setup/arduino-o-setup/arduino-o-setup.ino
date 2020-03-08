@@ -11,7 +11,7 @@ void setup() {
   // turn the LED on when we're done
   digitalWrite(13, HIGH);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.print("ID is ");
   Serial.println(String(char(EEPROM.read(0))));
 }

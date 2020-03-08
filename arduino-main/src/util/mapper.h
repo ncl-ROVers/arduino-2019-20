@@ -1,5 +1,5 @@
 #define O_COUNT 11 // Number of devices attached to Arduino O
-#define I_COUNT 2 // Number of devices attached to Arduino I
+#define I_COUNT 0 // Number of devices attached to Arduino I
 
 #ifndef MAPPER_H
 #define MAPPER_H

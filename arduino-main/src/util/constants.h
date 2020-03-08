@@ -3,10 +3,11 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-extern String arduinoID;
+extern String arduinoID; // JSON ID representing this Arduino (read from long-term memory)
 
-extern int safetyShutoffTimeMs;
+extern String A_O;
+extern String A_I;
 
-//extern String ARD;
+extern int safetyShutoffTimeMs; // Amount of time in ms before everything gets shut off if no message received
 
-#endif /* CONSTANTS_H */
+#endif
