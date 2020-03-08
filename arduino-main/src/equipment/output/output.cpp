@@ -15,7 +15,7 @@ int Output::setValue(int inputValue) {
 
   if (value < minValue || value > maxValue) {
     // Send error message saying the incoming value was out of range
-    communication.sendStatus(-1);
+    communication.sendOnlyStatus(-1);
     return currentValue; // Keep output at same value
   }
   else{
