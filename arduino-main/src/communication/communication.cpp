@@ -32,35 +32,31 @@ void Communication::incrementPosition(){
 
 void Communication::bufferValue(String device, String incomingValue){
   // buffer a key value pair to be sent with next load
-  if(nextValueIsFirstValue){
-    nextValueIsFirstValue == false;
-  }
-  else{
-    messageContents+=",";
-  }
-  messageContents+="\""+device;
+  messageContents+=",\""+device;
   messageContents+="\":\"";
   messageContents+=incomingValue+"\"";
 }
 
-void Communication::sendOnlyStatus (int status){
-  setStatus(status);
-  sendAll();
-}
-
-void Communication::setStatus (int status){
-  currentStatus = status;
+void Communication::sendStatus (int status){
+  //Hardcoded JSON
+  Serial.print("{\""+deviceIdKey+"\":\"");
+  Serial.print(arduinoID);
+  Serial.print("\",\""+statusKey);
+  Serial.print(String(char(EEPROM.read(0))));
+  Serial.print("\":\"");
+  Serial.print(status);
+  Serial.println("\"}");
 }
 
 void Communication::sendAll(){
-  bufferValue("A_"+arduinoID, String(currentStatus)); // Send Arduino status with this message
-
-  Serial.print("{");
+  Serial.print("{\""+deviceIdKey+"\":\"");
+  Serial.print(arduinoID);
+  Serial.print("\"");
   Serial.print(messageContents);
   Serial.println("}");
   messageContents="";
-  nextValueIsFirstValue = true;
 }
+
 
 /*
   SerialEvent occurs whenever a new data comes in the hardware serial RX. This

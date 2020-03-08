@@ -8,7 +8,7 @@ Sonar::Sonar(String incomingPartID){
   if(!sonar.initialize())
   {
     // Send error message because sensor not found
-    communication.sendOnlyStatus(-22);
+    communication.sendStatus(-22);
   }
   else{
     initialised = true;
@@ -23,11 +23,11 @@ int Sonar::getValue() {
     }
     else{
       // Throw error because this sensor could not update
-      communication.sendOnlyStatus(-21);
+      communication.sendStatus(-21);
       if(!sonar.initialize())
       {
         // Send error message because sensor not found
-        communication.sendOnlyStatus(-22);
+        communication.sendStatus(-22);
       }
       else{
         initialised = true;
@@ -36,7 +36,7 @@ int Sonar::getValue() {
   }
   else{
     // Throw error because this sensor has not yet been initialised properly
-    communication.sendOnlyStatus(-20);
+    communication.sendStatus(-20);
   }
   
 }
@@ -57,6 +57,6 @@ int Sonar::setParam(int index, int value){
   }
   else{
     // Throw error because not valid index
-    communication.sendOnlyStatus(-23);
+    communication.sendStatus(-23);
   }
 }

@@ -35,7 +35,7 @@ int ArmGripper::setValue(int inputValue) {//                                    
 
 bool ArmGripper::hitLeftLimit(){ // check if a limit switch was hit
   if(digitalRead(leftLimit)==LOW && currentValue<stoppedValue){ // Low = pressed
-    communication.sendOnlyStatus(2);
+    communication.sendStatus(2);
     currentValue = stoppedValue;
     thruster.writeMicroseconds(currentValue);
     return true;
@@ -47,7 +47,7 @@ bool ArmGripper::hitRightLimit(){ // check if a limit switch was hit
   //Serial.println("Pin is");
   //Serial.println(rightLimit);
   if(digitalRead(rightLimit)==LOW && currentValue>stoppedValue){ // Low = pressed
-    communication.sendOnlyStatus(3);
+    communication.sendStatus(3);
     currentValue = stoppedValue;
     thruster.writeMicroseconds(currentValue);
     return true;

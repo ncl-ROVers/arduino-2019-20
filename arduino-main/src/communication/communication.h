@@ -21,11 +21,9 @@ class Communication{
     int currentPosition; // value of next free space
     bool stringComplete = false;  // whether a full JSON string has been received
     String inputString = "";         // a String to hold incoming data
-    //String statusKey = "S_";
-    //String deviceIdKey = "ID";
+    String statusKey = "S_";
+    String deviceIdKey = "ID";
     String messageContents = "";
-    int currentStatus = 4;
-    bool nextValueIsFirstValue = true; // Flag to indicate if this is the first value of the json string so doesn't need a prepended comma
 
   public:
     Communication();
@@ -61,14 +59,9 @@ class Communication{
     void bufferValue(String device, String incomingValue);
 
     /*
-      Send the current status of this Arduino as its own message (e.g. booting)
+      Send the current status of this Arduino (e.g. booting)
     */
-    void sendOnlyStatus (int status);
-
-    /*
-      Set the current status Arduino as a mid-string key value pair
-    */
-    void setStatus (int status);
+    void sendStatus (int status);
 
     /*
       Send all buffered values to the Pi
