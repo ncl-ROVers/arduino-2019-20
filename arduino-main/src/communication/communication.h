@@ -21,8 +21,8 @@ class Communication{
     int currentPosition; // value of next free space
     bool stringComplete = false;  // whether a full JSON string has been received
     String inputString = "";         // a String to hold incoming data
-    String statusKey = "s";
-    String deviceIdKey = "id";
+    String statusKey = "S_";
+    String deviceIdKey = "ID";
     String messageContents = "";
 
   public:

@@ -34,31 +34,46 @@ Values in the range 1100 to 1900 will be accepted for Thruster or Motor control 
 
 Thrusters are given an ID which describes their position on the ROV. Motors are named in a similar fashion.
 
-| Pin | JSON ID | Description                                 |
-|-----|---------|---------------------------------------------|
-| 0   | thfp    | Forward Port Thruster (front right)         |
-| 1   | thfs    | Forward Starboard Thruster (front left)     |
-| 2   | thap    | Aft Port Thruster (back left)               |
-| 3   | thas    | Aft Starboard Thruster (back right)         |
-| 4   | tvfp    | Top Forward Port Thruster (front right)     |
-| 5   | tvfs    | Top Forward Starboard Thruster (front left) |
-| 6   | tvap    | Top Aft Port Thruster (back left)           |
-| 7   | tvas    | Top Aft Starboard Thruster (back right)     |
-| 8   | mg      | Arm Gripper Motor                           |
-| 9   | tm      | Micro ROV Thruster                          |
-| 10  | mc      | Micro ROV return cord                       |
+#### Incoming data
 
+| JSON ID | Description                                 | Min  | Max  | Data type |
+|---------|---------------------------------------------|------|------|-----------|
+| thfp    | Forward Port Thruster (front right)         | 1100 | 1900 | int       |
+| thfs    | Forward Starboard Thruster (front left)     | 1100 | 1900 | int       |
+| thap    | Aft Port Thruster (back left)               | 1100 | 1900 | int       |
+| thas    | Aft Starboard Thruster (back right)         | 1100 | 1900 | int       |
+| tvfp    | Top Forward Port Thruster (front right)     | 1100 | 1900 | int       |
+| tvfs    | Top Forward Starboard Thruster (front left) | 1100 | 1900 | int       |
+| tvap    | Top Aft Port Thruster (back left)           | 1100 | 1900 | int       |
+| tvas    | Top Aft Starboard Thruster (back right)     | 1100 | 1900 | int       |
+| mg      | Arm Gripper Motor                           | 1100 | 1900 | int       |
+| tm      | Micro ROV Thruster                          | 1100 | 1900 | int       |
+| mc      | Micro ROV return cord                       | 1100 | 1900 | int       |
+
+#### Outgoing data
+
+| JSON ID | Description                | Min | Max | Data type |
+|---------|----------------------------|-----|-----|-----------|
+| ID      | This Arduino's ID          | A_O | A_O | String    |
+| S_O     | The status - see Ret Codes | -   | -   | int       |
 
 ### Arduino I
 
 This Arduino is for reading all the sensors on the ROV.
 
-| JSON ID        | Description                            |
-|----------------|----------------------------------------|
+#### Incoming data
+
+| JSON ID | Description                                 | Min  | Max  | Data type |
+|---------|---------------------------------------------|------|------|-----------|
 
 (None specified)
 
+#### Outgoing data
 
+| JSON ID | Description                | Min | Max | Data type |
+|---------|----------------------------|-----|-----|-----------|
+| ID      | This Arduino's ID          | A_I | A_I | String    |
+| S_I     | The status - see Ret Codes | -   | -   | int       |
 
 ### Ret Codes
 

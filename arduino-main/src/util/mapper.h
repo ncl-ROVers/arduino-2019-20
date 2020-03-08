@@ -1,5 +1,5 @@
 #define O_COUNT 11 // Number of devices attached to Arduino O
-#define I_COUNT 2 // Number of devices attached to Arduino I
+#define I_COUNT 0 // Number of devices attached to Arduino I
 
 #ifndef MAPPER_H
 #define MAPPER_H
@@ -27,7 +27,7 @@ class Mapper {
   private:
     // t for Ard_O (Output)
     Output* oObjects[O_COUNT];  // Devices attached to Arduino T
-    String oIDs[O_COUNT] = {"thfp", "thfs", "thap", "thas", "tvfp", "tvfs", "tvap", "tvas", "mg", "tm", "mc"};
+    String oIDs[O_COUNT] = {"T_HFP", "T_HFS", "T_HAP", "T_HAS", "T_VFP", "T_VFS", "T_VAP", "T_VAS", "M_G", "T_M", "M_C"};
 
     // i for Ard_I (Input)
     Input* iObjects[I_COUNT];
