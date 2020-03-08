@@ -38,17 +38,17 @@ Thrusters are given an ID which describes their position on the ROV. Motors are 
 
 | JSON ID | Description                                 | Min  | Max  | Data type |
 |---------|---------------------------------------------|------|------|-----------|
-| thfp    | Forward Port Thruster (front right)         | 1100 | 1900 | int       |
-| thfs    | Forward Starboard Thruster (front left)     | 1100 | 1900 | int       |
-| thap    | Aft Port Thruster (back left)               | 1100 | 1900 | int       |
-| thas    | Aft Starboard Thruster (back right)         | 1100 | 1900 | int       |
-| tvfp    | Top Forward Port Thruster (front right)     | 1100 | 1900 | int       |
-| tvfs    | Top Forward Starboard Thruster (front left) | 1100 | 1900 | int       |
-| tvap    | Top Aft Port Thruster (back left)           | 1100 | 1900 | int       |
-| tvas    | Top Aft Starboard Thruster (back right)     | 1100 | 1900 | int       |
-| mg      | Arm Gripper Motor                           | 1100 | 1900 | int       |
-| tm      | Micro ROV Thruster                          | 1100 | 1900 | int       |
-| mc      | Micro ROV return cord                       | 1100 | 1900 | int       |
+| T_HFP   | Forward Port Thruster (front right)         | 1100 | 1900 | int       |
+| T_HFS   | Forward Starboard Thruster (front left)     | 1100 | 1900 | int       |
+| T_HAP   | Aft Port Thruster (back left)               | 1100 | 1900 | int       |
+| T_HAS   | Aft Starboard Thruster (back right)         | 1100 | 1900 | int       |
+| T_VFP   | Top Forward Port Thruster (front right)     | 1100 | 1900 | int       |
+| T_VFS   | Top Forward Starboard Thruster (front left) | 1100 | 1900 | int       |
+| T_VAP   | Top Aft Port Thruster (back left)           | 1100 | 1900 | int       |
+| T_VAS   | Top Aft Starboard Thruster (back right)     | 1100 | 1900 | int       |
+| T_G     | Arm Gripper Motor                           | 1100 | 1900 | int       |
+| T_M     | Micro ROV Thruster                          | 1100 | 1900 | int       |
+| M_C     | Micro ROV return cord                       | 1100 | 1900 | int       |
 
 #### Outgoing data
 
