@@ -4,21 +4,19 @@
 #include <Arduino.h>
 #include "output.h"
 #include "../../communication/communication.h"
+#include "genericEscMotor.h"
 
-#include <Servo.h>
 
 /*
   The ArmRotation class represents a BlueRobotics M100 or M200 PWM motor.
   It takes values between 1100 and 1900 to control the rotation speed and direction of the motor.
   This is similar to ArmGripper except it does not have the option for limit switches.
 */
-class ArmRotation: public Output {
+class ArmRotation: public EscMotor {
 
   protected:
-    // Represents a motor controlling arm rotation
-    Servo servo;
 
- public:
+  public:
 
     ArmRotation (int inputPin, String partID);
 

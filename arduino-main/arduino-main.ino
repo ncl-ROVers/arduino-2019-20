@@ -55,6 +55,7 @@ void setup() {
 
   communication.sendAll();
   communication.sendStatus(0);
+
 }
 
 /* ============================================================ */
@@ -109,7 +110,6 @@ void disableOutputsIfNoMessageReceived(int timeInMs){
     safetyActive = true; //activate safety
     communication.sendStatus(-13);
     communication.sendAll();
-    mapper.stopOutputs();
   }
 }
 
