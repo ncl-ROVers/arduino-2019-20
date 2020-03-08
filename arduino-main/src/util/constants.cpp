@@ -1,9 +1,7 @@
 #include "constants.h"
 
-String arduinoID = "";  
+String arduinoID = "";  // JSON ID representing this Arduino (read from long-term memory)
 
-String A_O = "O";
-String A_I = "I";
+int safetyShutoffTimeMs = 1000; // Amount of time in ms before everything gets shut off if no message received
 
-int safetyShutoffTimeMs = 1000; 
-
+//String ARD = "Ard_"; // Prefix for Arduino ID - deprecated

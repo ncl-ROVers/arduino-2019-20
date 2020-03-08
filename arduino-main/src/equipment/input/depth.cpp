@@ -8,7 +8,7 @@ Depth::Depth(int inputPin, String incomingPartID){
   if(!depthSensor.init())
   {
     // Send error message
-    communication.sendOnlyStatus(-4);
+    communication.sendStatus(-4);
   }
   else{
     depthSensor.setModel(MS5837::MS5837_30BA);
@@ -28,7 +28,7 @@ int Depth::getValue() {
   }
   else{
     // Throw error because this sensor has not yet been initialised properly
-    communication.sendOnlyStatus(-5);
+    communication.sendStatus(-5);
     return -1;
   }
   return 0;

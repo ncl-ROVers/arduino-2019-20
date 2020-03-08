@@ -7,7 +7,7 @@ IMU::IMU(int inputPin, String incomingPartID){
   if(!imu.begin())
   {
     // Send error message
-    communication.sendOnlyStatus(-2);
+    communication.sendStatus(-2);
   }
   else{
     imu.setExtCrystalUse(true);
@@ -45,7 +45,7 @@ int IMU::getValue() {
   }
   else{
     // Throw error because this sensor has not yet been initialised properly
-    communication.sendOnlyStatus(-3);
+    communication.sendStatus(-3);
     return -1;
   }
   return 0;

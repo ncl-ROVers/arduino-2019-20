@@ -14,22 +14,22 @@ int Temperature::getValue() {
 
   if (fault) {
     if (fault & MAX31865_FAULT_HIGHTHRESH) {
-      communication.sendOnlyStatus(-14);
+      communication.sendStatus(-14);
     }
     if (fault & MAX31865_FAULT_LOWTHRESH) {
-      communication.sendOnlyStatus(-15);
+      communication.sendStatus(-15);
     }
     if (fault & MAX31865_FAULT_REFINLOW) {
-      communication.sendOnlyStatus(-16);
+      communication.sendStatus(-16);
     }
     if (fault & MAX31865_FAULT_REFINHIGH) {
-      communication.sendOnlyStatus(-17);
+      communication.sendStatus(-17);
     }
     if (fault & MAX31865_FAULT_RTDINLOW) {
-      communication.sendOnlyStatus(-18);
+      communication.sendStatus(-18);
     }
     if (fault & MAX31865_FAULT_OVUV) {
-      communication.sendOnlyStatus(-19);
+      communication.sendStatus(-19);
     }
     maxAmp.clearFault();
   }

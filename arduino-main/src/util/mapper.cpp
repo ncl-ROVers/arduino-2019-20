@@ -20,96 +20,96 @@ void Mapper::mapI(){
 }
 
 void Mapper::instantiateMap(){
-    if(thisIsArduino(A_O)){
+    if(thisIsArduino("o")){
         mapO();
     }
-    else if(thisIsArduino(A_I)){
+    else if(thisIsArduino("i")){
         mapI();
     }
     else{
-        communication.sendOnlyStatus(-12);
+        communication.sendStatus(-12);
     }
 }
 
 Output* Mapper::getOutputFromString(String jsonID){
-    if(thisIsArduino(A_O)){
+    if(thisIsArduino("o")){
         for(int i = 0; i < O_COUNT; i++){
             if(jsonID == oIDs[i]){
                 return oObjects[i];
             }
         }
         // Send error message saying the device was not found
-        communication.sendOnlyStatus(-8);
+        communication.sendStatus(-8);
         return new Output();
     }
     else{
         // Send error message saying the Arduino was not found
-        communication.sendOnlyStatus(-6);
+        communication.sendStatus(-6);
         return new Output();
     }
 }
 
 Output* Mapper::getOutputFromIndex(int index){
-    if(thisIsArduino(A_O)){
+    if(thisIsArduino("o")){
         return oObjects[index];
     }
     else{
         // Send error message saying the Arduino was not found
-        communication.sendOnlyStatus(-6);
+        communication.sendStatus(-6);
         return new Output();
     }
 }
 
 String Mapper::getOutputString(int index){
-    if(thisIsArduino(A_O)){
+    if(thisIsArduino("o")){
         return oIDs[index];
     }
     else{
         // Send error message saying the Arduino was not found
-        communication.sendOnlyStatus(-6);
+        communication.sendStatus(-6);
         return "";
     }
 }
 
 Input* Mapper::getInputFromString(String jsonID){
-    if(thisIsArduino(A_I)){
+    if(thisIsArduino("i")){
         for(int i = 0; i < I_COUNT; i++){
             if(jsonID == iIDs[i]){
                 return iObjects[i];
             }
             // Send error message saying the device was not found
-            communication.sendOnlyStatus(-9);
+            communication.sendStatus(-9);
         }
     }
     else{
         // Send error message saying the Arduino was not foun
-        communication.sendOnlyStatus(-7);
+        communication.sendStatus(-7);
         return new Input();
     }
 }
 
 Input* Mapper::getInputFromIndex(int index){
-    if(thisIsArduino(A_I)){
+    if(thisIsArduino("i")){
         return iObjects[index];
     }
     else{
         // Send error message saying the Arduino was not fou
-        communication.sendOnlyStatus(-7);
+        communication.sendStatus(-7);
         return new Input();
     }
     // Send error message saying the device was not found
-    communication.sendOnlyStatus(-9);
+    communication.sendStatus(-9);
 }
 
 int Mapper::getNumberOfInputs(){
-    if(thisIsArduino(A_I)){
+    if(thisIsArduino("i")){
         return I_COUNT;
     }
     return 0;
 }
 
 int Mapper::getNumberOfOutputs(){
-    if(thisIsArduino(A_O)){
+    if(thisIsArduino("o")){
         return O_COUNT;
     }
     return 0;
@@ -125,13 +125,13 @@ void Mapper::sendAllSensors(){
         }
     }
     if(retcode == 0) {
-        communication.sendOnlyStatus(0);
+        communication.sendStatus(0);
     }
     communication.sendAll();
 }
 
 void Mapper::stopOutputs(){
-    if(thisIsArduino(A_O)){
+    if(thisIsArduino("o")){
         for(int i = 0; i < O_COUNT; i++){
             oObjects[i]->turnOff();
             delay(125); // delay 125ms between each thruster to avoid sudden power halt
@@ -139,9 +139,9 @@ void Mapper::stopOutputs(){
     }
     else{
         // Send error message saying the Arduino was not found
-        communication.sendOnlyStatus(-10);
+        communication.sendStatus(-10);
     }
-    communication.sendOnlyStatus(1);
+    communication.sendStatus(1);
 }
 
 bool Mapper::thisIsArduino(String arduinoIdToCheck){
@@ -149,9 +149,9 @@ bool Mapper::thisIsArduino(String arduinoIdToCheck){
 }
 
 bool Mapper::thisIsAnOutputArduino(){
-    return thisIsArduino(A_O);
+    return thisIsArduino("o");
 }
 
 bool Mapper::thisIsAnInputArduino(){
-    return thisIsArduino(A_I);
+    return thisIsArduino("i");
 }
