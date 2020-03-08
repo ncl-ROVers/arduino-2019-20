@@ -28,10 +28,6 @@ EscMotor::EscMotor (int inputPin, String partID) {
 int EscMotor::setValue(int inputValue) {
   // call parent logic (keeps value within preset boundary)
   int value = Output::setValue(inputValue);
-  Serial.print("DEBUG pin = ");
-  Serial.print(pin);
-  Serial.print(" value = ");
-  Serial.println(inputValue);
   // Actually control the device
   EscMotor::motor.writeMicroseconds(pin, inputValue);
   // Return the set value
