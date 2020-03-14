@@ -2,7 +2,6 @@
 #define COMMUNICATION_H
 
 #include <Arduino.h>
-#include <EEPROM.h>
 #include <Arduino_JSON.h>
 #include "../util/constants.h"
 
