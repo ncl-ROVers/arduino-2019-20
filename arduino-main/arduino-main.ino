@@ -182,7 +182,7 @@ String getChipId() {
   return "0x" + buf;
 }
 
-/* Assigns a shortned ID value to the arduino if the ChipId value matches or assigns the String "Invalid arduino" if it does not */
+/* Assigns a shortned ID value to the arduino if the ChipId value matches or sends status -12 as the arduino has not been set up */
 void assignID() {
   if (getChipId() == "0x22956edf5050323339202020ff09213c") {
     arduinoID = "A_O";
