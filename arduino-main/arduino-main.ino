@@ -48,7 +48,7 @@ void setup() {
   if (ChipId() == "0x22956edf5050323339202020ff09213c") {
     arduinoID = "A_O";
   }
-  else if (ChipId() == "0x22956edf5050323339202020ff09213b") {
+  else if (ChipId() == "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") {
     arduinoID = "A_I"
   }
 
