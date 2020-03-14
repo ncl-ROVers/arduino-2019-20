@@ -1,10 +1,8 @@
 #include "depth.h"
 
-Depth::Depth(int inputPin, String incomingPartID){
+Depth::Depth(int inputPin, String incomingPartID) : Input(incomingPartID){
   initialised = false;
   Wire.begin();
-  // Run parent method
-  partID = incomingPartID;
   if(!depthSensor.init())
   {
     // Send error message

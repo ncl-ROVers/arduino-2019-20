@@ -1,9 +1,8 @@
 #include "sonar.h"
 
-Sonar::Sonar(String incomingPartID){
+Sonar::Sonar(String incomingPartID) : Input(incomingPartID){
   initialised = false;
   sonStart = 500, sonLen = 30000;
-  partID = incomingPartID;
   Serial1.begin(115200); // sonar io
   if(!sonar.initialize())
   {

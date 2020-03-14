@@ -10,8 +10,7 @@
 // Represents a motor controlled by an ESC
 Adafruit_PWMServoDriver EscMotor::motor;
 
-EscMotor::EscMotor (int inputPin, String partID) {
-  this->partID = partID;
+EscMotor::EscMotor (int inputPin, String partID) : Output(partID){
   // Set limit and starting values
   maxValue = 1900;
   minValue = 1100;

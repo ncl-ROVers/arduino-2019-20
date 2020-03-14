@@ -1,9 +1,7 @@
 #include "temperature.h"
 
-Temperature::Temperature(String incomingPartID){
+Temperature::Temperature(String incomingPartID) : Input(incomingPartID){
   Wire.begin();
-  // Run parent method
-  partID = incomingPartID;
   maxAmp.begin(MAX31865_3WIRE);
 }
 

@@ -1,12 +1,11 @@
 #include "output.h"
 
-Output::Output() {
+Output::Output(String incomingPartID) : Device(incomingPartID){
   maxValue=0;
   minValue=0;
   currentValue=0;
   stoppedValue=0;
   pin=0;
-  partID="part ID not set";
 }
 
 int Output::setValue(int inputValue) {

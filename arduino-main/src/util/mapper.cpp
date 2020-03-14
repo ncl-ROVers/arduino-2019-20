@@ -40,12 +40,12 @@ Output* Mapper::getOutputFromString(String jsonID){
         }
         // Send error message saying the device was not found
         communication.sendStatus(-8);
-        return new Output();
+        return new Output("Invalid");
     }
     else{
         // Send error message saying the Arduino was not found
         communication.sendStatus(-6);
-        return new Output();
+        return new Output("Invalid");
     }
 }
 
@@ -56,7 +56,7 @@ Output* Mapper::getOutputFromIndex(int index){
     else{
         // Send error message saying the Arduino was not found
         communication.sendStatus(-6);
-        return new Output();
+        return new Output("Invalid");
     }
 }
 
@@ -84,7 +84,7 @@ Input* Mapper::getInputFromString(String jsonID){
     else{
         // Send error message saying the Arduino was not foun
         communication.sendStatus(-7);
-        return new Input();
+        return new Input("Invalid");
     }
 }
 
@@ -95,7 +95,7 @@ Input* Mapper::getInputFromIndex(int index){
     else{
         // Send error message saying the Arduino was not fou
         communication.sendStatus(-7);
-        return new Input();
+        return new Input("Invalid");
     }
     // Send error message saying the device was not found
     communication.sendStatus(-9);

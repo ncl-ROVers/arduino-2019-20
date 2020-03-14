@@ -2,19 +2,19 @@
 #define INPUT_H
 
 #include <Arduino.h>
+#include "../device.h"
 
 /*
   An abstract Input which has generic fields for the associated physical pin and JSON ID.
   Also has generic method for reading the values from a sensor.
 */
-class Input {
+class Input: public Device{
 
   protected:
     int pin; // The physical pin this is associated with
-    String partID; // The JSON Part ID of this device
 
   public:
-    Input();
+    Input(String incomingPartID);
 
     // Get the current value of this device (EG: Temperature)
     virtual int getValue();

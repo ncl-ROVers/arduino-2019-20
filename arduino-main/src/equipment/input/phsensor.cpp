@@ -1,7 +1,6 @@
 #include "phsensor.h"
 
-PHSensor::PHSensor(int inputPin, String incomingPartID){
-  partID = incomingPartID;
+PHSensor::PHSensor(int inputPin, String incomingPartID) : Input(incomingPartID){
   pin = inputPin;
 
 }
