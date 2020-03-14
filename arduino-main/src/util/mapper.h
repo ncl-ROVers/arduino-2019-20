@@ -27,11 +27,11 @@
 class Mapper {
   private:
     // t for Ard_O (Output)
-    Device* oObjects[O_COUNT];  // Devices attached to Arduino T
+    Output* oObjects[O_COUNT];  // Devices attached to Arduino T
     String oIDs[O_COUNT] = {"T_HFP", "T_HFS", "T_HAP", "T_HAS", "T_VFP", "T_VFS", "T_VAP", "T_VAS", "M_G", "T_M", "M_C"};
 
     // i for Ard_I (Input)
-    Device* iObjects[I_COUNT];
+    Input* iObjects[I_COUNT];
     String iIDs[I_COUNT] = {};
 
     /*
