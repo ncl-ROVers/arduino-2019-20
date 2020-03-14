@@ -6,11 +6,6 @@
 
 #include <Arduino.h>
 #include "../equipment/input/input.h"
-#include "../equipment/input/imu.h"
-#include "../equipment/input/depth.h"
-#include "../equipment/input/phsensor.h"
-#include "../equipment/input/sonar.h"
-#include "../equipment/input/temperature.h"
 #include "../equipment/output/output.h"
 #include "../equipment/output/thruster.h"
 #include "../equipment/output/armgripper.h"
