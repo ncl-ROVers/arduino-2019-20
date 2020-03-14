@@ -13,7 +13,6 @@
 /* ============================================================ */
 /* ======================Import libraries====================== */
 /* ============================================================ */
-#include <EEPROM.h> // Library for writing to Arduino's non volatile memory
 #include <Arduino_JSON.h> // JSON encoding and decoding
 
 
@@ -45,12 +44,7 @@ Communication communication; // Object to allow for communication with the Raspb
 /* =============Runs once when Arduino is turned on============ */
 void setup() {
   // assigns arduino ID based off of the chip ID
-  if (ChipId() == "0x22956edf5050323339202020ff09213c") {
-    arduinoID = "A_O";
-  }
-  else if (ChipId() == "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") {
-    arduinoID = "A_I"
-  }
+  arduinoID = assignID();
 
   // initialize serial:
   Serial.begin(115200);
@@ -171,7 +165,7 @@ void prepareForNewMessage(){
   communication.setStringComplete(false);
 }
 
-
+/* Generates a unique ID string based off of the arduino in use */
 String ChipId() {
   volatile uint32_t val1, val2, val3, val4;
   volatile uint32_t *ptr1 = (volatile uint32_t *)0x0080A00C;
@@ -186,4 +180,17 @@ String ChipId() {
   char buf[33];
   sprintf(buf, "%8x%8x%8x%8x", val1, val2, val3, val4);
   return "0x" + buf;
+}
+
+/* Assigns a shortned ID value to the arduino if the ChipId value matches or assigns the String "Invalid arduino" if it does not */
+String assignID() {
+  if (ChipId() == "0x22956edf5050323339202020ff09213c") {
+    return "A_O";
+  }
+  else if (ChipId() == "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") {
+    return "A_I";
+  }
+  else{
+    return "Invalid arduino";
+  }
 }
