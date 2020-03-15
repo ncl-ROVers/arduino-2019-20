@@ -13,7 +13,6 @@
 /* ============================================================ */
 /* ======================Import libraries====================== */
 /* ============================================================ */
-#include <EEPROM.h> // Library for writing to Arduino's non volatile memory
 #include <Arduino_JSON.h> // JSON encoding and decoding
 
 // Custom ROV Libaries
@@ -41,7 +40,8 @@ Communication communication; // Object to allow for communication with the Raspb
 /* =======================Setup function======================= */
 /* =============Runs once when Arduino is turned on============ */
 void setup() {
-  arduinoID = "A_" + String(char(EEPROM.read(0)));
+  // assigns arduino ID based off of the chip ID
+  assignID();
 
   // initialize serial:
   Serial.begin(115200);
@@ -160,4 +160,34 @@ void prepareForNewMessage(){
   // clear the string ready for the next input
   communication.setInputString("");
   communication.setStringComplete(false);
+}
+
+/* Returns a unique ID string read from the arduino's memory */
+String getChipId() {
+  volatile uint32_t val1, val2, val3, val4;
+  volatile uint32_t *ptr1 = (volatile uint32_t *)0x0080A00C;
+  val1 = *ptr1;
+  volatile uint32_t *ptr = (volatile uint32_t *)0x0080A040;
+  val2 = *ptr;
+  ptr++;
+  val3 = *ptr;
+  ptr++;
+  val4 = *ptr;
+
+  char buf[33];
+  sprintf(buf, "%8x%8x%8x%8x", val1, val2, val3, val4);
+  return "0x" + buf;
+}
+
+/* Assigns a shortned ID value to the arduino if the ChipId value matches or sends status -12 as the arduino has not been set up */
+void assignID() {
+  if (getChipId() == "0x22956edf5050323339202020ff09213c") {
+    arduinoID = "A_O";
+  }
+  else if (getChipId() == "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa") {
+    arduinoID = "A_I";
+  }
+  else{
+    communication.sendStatus(-12);
+  }
 }
